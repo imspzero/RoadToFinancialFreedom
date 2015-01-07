@@ -230,6 +230,11 @@ public class FindSegmentImpl1Test extends TestCase {
 //		}
 		
 		findSegmentImpl1.findSegment(touchList);
+		
+		
+		
+		
+		
 	}
 	
 }
