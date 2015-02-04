@@ -5,15 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+import pers.sam.czsc.core.util.GetDataUtil;
 import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.TouchDTO;
-import junit.framework.TestCase;
 
 public class FindSegmentImpl2Test extends TestCase {
 	
 	private FindSegmentImpl2  findSegmentImpl2= new FindSegmentImpl2();
 	
-	public void testFindSegment() throws ParseException{
+	public void atestFindSegment() throws ParseException{
 		
 		List <TouchDTO>touchList = new ArrayList();
 		
@@ -206,4 +207,66 @@ public class FindSegmentImpl2Test extends TestCase {
 		
 		findSegmentImpl2.findSegment(touchList);
 	}
+	
+	
+	
+	public void atest67_01() throws ParseException{
+
+		System.out.println("----------begin test67_01----------");
+		
+		
+		String fileName = System.getProperty("user.dir")+"/resource/67_01/67_01.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl2.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+		
+	}
+	
+	public void test67_02() throws ParseException{
+
+		System.out.println("----------begin test67_02----------");
+		
+		
+		String fileName = System.getProperty("user.dir")+"/resource/67_02/67_02.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		for(int i = 0;i<touchList.size();i++){
+			TouchDTO touchDTO = touchList.get(i);
+			
+			System.out.println(
+					sdf.format(touchDTO.getStartMLine().getBeginTime())+" "+
+					sdf.format(touchDTO.getEndMLine().getBeginTime())+" "+touchDTO.getStartMLine().getHigh()+" "
+					+touchDTO.getEndMLine().getHigh()
+			);
+			
+		}
+		
+		
+		findSegmentImpl2.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+		
+	}
+	
+	public void atest79_01() throws ParseException{
+
+		System.out.println("test79_01");
+		
+		
+		String fileName = System.getProperty("user.dir")+"/resource/79_01/79_01.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl2.findSegment(touchList);
+		
+	}
+	
 }

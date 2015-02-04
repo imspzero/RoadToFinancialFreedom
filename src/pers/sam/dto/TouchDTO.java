@@ -5,7 +5,7 @@ package pers.sam.dto;
  * @author Administrator
  *
  */
-public class TouchDTO {
+public class TouchDTO implements Cloneable{
 	
 	//¿ªÊ¼
 	private MergeLineDTO  startMLine;
@@ -39,5 +39,15 @@ public class TouchDTO {
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
-	
+
+	public TouchDTO clone() { 
+		TouchDTO clone = null; 
+        try{ 
+            clone = (TouchDTO) super.clone(); 
+ 
+        }catch(CloneNotSupportedException e){ 
+            throw new RuntimeException(e); // won't happen 
+        }
+        return clone; 
+    }
 }

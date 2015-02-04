@@ -1,6 +1,7 @@
 package pers.sam.czsc.core.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import pers.sam.czsc.core.FindSegmentInterface;
@@ -19,7 +20,13 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 	
 	public void findSegment(List<TouchDTO> touchList) {
 		
-		List resultIndexList = new ArrayList();
+		List<Integer> resultIndexList = new ArrayList<Integer>();
+		
+		List<TouchDTO> processList = new LinkedList<TouchDTO>();
+		
+		for(int i=0;i<touchList.size();i++){
+			processList.add((touchList.get(i)).clone());
+		}
 		
 		//取得一开始线段的方向
 		String segmentDirection = "";
@@ -56,74 +63,49 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 				FeatureElementDTO firstElement = getFirstElement(
 						beforeElementList, segmentDirection);
 				
-				//第二元素：就是从这转折点开始的第一笔
-				TouchDTO secondDTO = touchList.get(i);
-				
-				FeatureElementDTO secondElement = new FeatureElementDTO();
-				secondElement.setBeginTime(secondDTO.getStartMLine().getBeginTime());
-				secondElement.setEndTime(secondDTO.getEndMLine().getEndTime());
-				if(secondDTO.getDirection().equals("up")){
-					secondElement.setHigh(secondDTO.getEndMLine().getHigh());
-					secondElement.setLow(secondDTO.getStartMLine().getLow());
-				}else if(secondDTO.getDirection().equals("down")){
-					secondElement.setHigh(secondDTO.getStartMLine().getHigh());
-					secondElement.setLow(secondDTO.getEndMLine().getLow());	
-				}
-				
-				// 找到第三元素
+				// 找到第二第三元素（特征序列合并后，即标准特征序列）
 				List<FeatureElementDTO> afterElementList = mergeFeatureElement(
 						touchList, segmentDirection.equals("up") ? "down"
-								: "up", i+1, touchList.size()-1);
-				if(afterElementList.size()<1){
+								: "up", i, touchList.size()-1);
+				if(afterElementList.size()<2){
 					flag = false;
 					break;
 				}
 				
-				FeatureElementDTO thirdElement = afterElementList.get(0);
+				FeatureElementDTO secondElement = afterElementList.get(0);
+				FeatureElementDTO thirdElement = afterElementList.get(1);
 				
-				
-				
-				//是否存在笔破坏
-				if(segmentDirection.equals("up")
-						&&secondElement.getLow()<=firstElement.getHigh()){
-					
-				}else if(segmentDirection.equals("down")
-						&&secondElement.getHigh()>=firstElement.getLow()){
-					
+				//是否存在分型
+				if(segmentDirection.equals("up")){
+					//顶分型
+					if(!(firstElement.getHigh()<secondElement.getHigh()
+							&&thirdElement.getHigh()<secondElement.getHigh()
+							&&thirdElement.getLow()<secondElement.getLow())){
+						flag = false;
+						continue;//不存在直接跳出
+					}
+				}else if(segmentDirection.equals("down")){
+					//底分型
+					if(!(firstElement.getLow()>secondElement.getLow()
+							&&thirdElement.getLow()>secondElement.getLow()
+							&&thirdElement.getHigh()>secondElement.getHigh())){
+						flag = false;
+						continue;//不存在直接跳出
+					}
 				}
 				
-				
-				
-				
-//				//是否存在分型
-//				if(segmentDirection.equals("up")){
-//					//顶分型
-//					if(!(firstElement.getHigh()<secondElement.getHigh()
-//							&&thirdElement.getHigh()<secondElement.getHigh()
-//							&&thirdElement.getLow()<secondElement.getLow())){
-//						flag = false;
-//						continue;//不存在直接跳出
-//					}
-//				}else if(segmentDirection.equals("down")){
-//					//底分型
-//					if(!(firstElement.getLow()>secondElement.getLow()
-//							&&thirdElement.getLow()>secondElement.getLow()
-//							&&thirdElement.getHigh()>secondElement.getHigh())){
-//						flag = false;
-//						continue;//不存在直接跳出
-//					}
-//				}
-				
 				//区分第一和第二种情况
-				if(!(
-					(segmentDirection.equals("up")&&firstElement.getHigh()<secondElement.getLow())||
-					(segmentDirection.equals("down")&&firstElement.getLow()>secondElement.getHigh())
-					)){
+				if(!existsGapBetweenFirstAndSecondElement(segmentDirection,firstElement,touchList.get(i))){
 					//是第一种情况，第一元素和第二元素无缺口
 					//存在并且划分成功
 					flag= true;
 					resultIndexList.add(i);
 					lastSegmentEndIndex = i;
+					
+					System.out.println("线段端点: "+
+							StockDateUtil.SDF_TIME.format(touchList.get(i).getStartMLine().getBeginTime())+"~"+
+							StockDateUtil.SDF_TIME.format(touchList.get(i).getEndMLine().getEndTime())+" point ");
+					
 				}else{
 					//是第二种情况，第一元素和第二元素有缺口
 					//需要见识第二特征序列是否出现分型
@@ -182,15 +164,27 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 		
 		//输出结果
 		
-		for(int i = 0;i<resultIndexList.size();i++){
-			int resutIndex = (Integer)resultIndexList.get(i);
-			
-			TouchDTO touchDTO = touchList.get(resutIndex);
-			System.out.println("线段于 "+
-					StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime())+"~"+
-					StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime())+" point ");
-		}
+//		for(int i = 0;i<resultIndexList.size();i++){
+//			int resutIndex = (Integer)resultIndexList.get(i);
+//			
+//			TouchDTO touchDTO = touchList.get(resutIndex);
+//			System.out.println("线段于 "+
+//					StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime())+"~"+
+//					StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime())+" point ");
+//		}
 		
+	}
+	
+	/*
+	 * 判断第一第二元素间是否有缺口（不考虑合并关系）
+	 */
+	private boolean existsGapBetweenFirstAndSecondElement(
+			String segmentDirection, FeatureElementDTO firstElement,
+			TouchDTO secondDTO) {
+		return (
+			(segmentDirection.equals("up")&&firstElement.getHigh()<Math.min(secondDTO.getEndMLine().getLow(), secondDTO.getStartMLine().getLow()))||
+			(segmentDirection.equals("down")&&firstElement.getLow()>Math.max(secondDTO.getEndMLine().getHigh(), secondDTO.getStartMLine().getHigh()))
+			);
 	}
 	
 	/**
@@ -223,9 +217,7 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 				}
 			}
 		}
-		
 		return firstElement;
-		
 	}
 	
 	/**
@@ -251,6 +243,7 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					elementDTO.setHigh(touchDTO.getStartMLine().getHigh());
 					elementDTO.setLow(touchDTO.getEndMLine().getLow());	
 				}
+				elementDTO.setElementIndex(i);
 				featureElementList.add(elementDTO);
 			}
 		}
