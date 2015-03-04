@@ -46,18 +46,18 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 			
 			flag = false;
 			
-			if(lastSegmentEndIndex+3>touchList.size()){
+			if(lastSegmentEndIndex+3>processList.size()){
 				flag = false;
 				break;
 			}
 			
 			//一线段至少有三笔，所以从三个后的元素开始检查
-			for(int i=lastSegmentEndIndex+3;i<touchList.size();i=i+2){
+			for(int i=lastSegmentEndIndex+3;i<processList.size();i=i+2){
 				//假设i是分界点
 				
 				//第一元素：第一元素就是以该假设转折点前线段的最后一个特征元素（次高）
 				List<FeatureElementDTO> beforeElementList = mergeFeatureElement(
-						touchList, segmentDirection.equals("up") ? "down"
+						processList, segmentDirection.equals("up") ? "down"
 								: "up", lastSegmentEndIndex, i-1);
 				
 				FeatureElementDTO firstElement = getFirstElement(
@@ -65,8 +65,8 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 				
 				// 找到第二第三元素（特征序列合并后，即标准特征序列）
 				List<FeatureElementDTO> afterElementList = mergeFeatureElement(
-						touchList, segmentDirection.equals("up") ? "down"
-								: "up", i, touchList.size()-1);
+						processList, segmentDirection.equals("up") ? "down"
+								: "up", i, processList.size()-1);
 				if(afterElementList.size()<2){
 					flag = false;
 					break;
@@ -219,6 +219,11 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 		}
 		return firstElement;
 	}
+	
+	public static void mergeTouchList(){
+			
+	}
+	
 	
 	/**
 	 * 处理特征序列的合并关系
