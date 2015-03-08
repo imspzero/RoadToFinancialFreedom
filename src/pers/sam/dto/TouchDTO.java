@@ -39,6 +39,25 @@ public class TouchDTO implements Cloneable{
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
+	
+	
+	public Double getHigh(){
+		if("up".equals(direction)){
+			return this.getEndMLine().getHigh();
+		}else if("down".equals(direction)){
+			return this.getStartMLine().getHigh();
+		}
+		return null;
+	}
+	
+	public Double getLow(){
+		if("up".equals(direction)){
+			return this.getStartMLine().getLow();
+		}else if("down".equals(direction)){
+			return this.getEndMLine().getLow();
+		}
+		return null;
+	}
 
 	public TouchDTO clone() { 
 		TouchDTO clone = null; 

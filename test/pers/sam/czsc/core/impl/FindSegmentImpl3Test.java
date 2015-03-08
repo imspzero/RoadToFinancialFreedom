@@ -7,6 +7,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import pers.sam.czsc.core.util.GetDataUtil;
+import pers.sam.dto.FeatureElementDTO;
 import pers.sam.dto.TouchDTO;
 
 public class FindSegmentImpl3Test extends TestCase {
@@ -54,7 +55,7 @@ public class FindSegmentImpl3Test extends TestCase {
 	}
 	
 	
-	public void test67_01() throws ParseException{
+	public void atest67_01() throws ParseException{
 
 		System.out.println("----------begin test67_01----------");
 		
@@ -99,7 +100,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 	}
 	
-	public void test79_01() throws ParseException{
+	public void atest79_01() throws ParseException{
 
 		System.out.println("test79_01");
 		
@@ -108,9 +109,66 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
 		
+		findSegmentImpl3.findSegment(touchList);
+		
+	}
+	
+	public void atest79_02() throws ParseException{
+
+		System.out.println("test79_02");
+		
+		
+		String fileName = System.getProperty("user.dir")+"/resource/79_02/79_02.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
 	}
 	
+	/**
+	 * 测试特征序列合并逻辑
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */
+	public void atestMergeTest_01() throws ParseException{
+		
+		System.out.println("testMergeTest_01");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/mergeTest_01/merge_01.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		List<FeatureElementDTO> featureList = 
+			findSegmentImpl3.mergeFeatureElement(touchList, "down", 0, 12);
+		
+		System.out.println(featureList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+		
+	}
+	
+	/**
+	 * 测试特征序列合并逻辑
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void atestMergeTest_02() throws ParseException{
+		
+		System.out.println("testMergeTest_02");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/mergeTest_02/merge_02.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		List<FeatureElementDTO> featureList = 
+			findSegmentImpl3.mergeFeatureElement(touchList, "up", 0, 8);
+		
+		System.out.println(featureList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+		
+	}
 }

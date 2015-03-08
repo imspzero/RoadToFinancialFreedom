@@ -1,6 +1,8 @@
 package pers.sam.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 特征序列元素
@@ -17,15 +19,15 @@ public class FeatureElementDTO {
 	
 	private double low;
 	
-	//分笔序列中，该元素的序号
-	private int elementIndex;
+	//特性序列对应原分笔序列上的序号
+	private List<Integer> touchIndexList = new ArrayList<Integer>();
 	
-	public int getElementIndex() {
-		return elementIndex;
+	public List<Integer> getTouchIndexList() {
+		return touchIndexList;
 	}
 
-	public void setElementIndex(int elementIndex) {
-		this.elementIndex = elementIndex;
+	public void setTouchIndexList(List<Integer> touchIndexList) {
+		this.touchIndexList = touchIndexList;
 	}
 
 	public Date getBeginTime() {

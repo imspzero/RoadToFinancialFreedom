@@ -22,7 +22,7 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 		
 		List<Integer> resultIndexList = new ArrayList<Integer>();
 		
-		List<TouchDTO> processList = new LinkedList<TouchDTO>();
+		LinkedList<TouchDTO> processList = new LinkedList<TouchDTO>();
 		
 		for(int i=0;i<touchList.size();i++){
 			processList.add((touchList.get(i)).clone());
@@ -95,25 +95,37 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 				}
 				
 				//区分第一和第二种情况
-				if(!existsGapBetweenFirstAndSecondElement(segmentDirection,firstElement,touchList.get(i))){
+				if(!existsGapBetweenFirstAndSecondElement(segmentDirection,firstElement,processList.get(i))){
 					//是第一种情况，第一元素和第二元素无缺口
 					//存在并且划分成功
 					flag= true;
+					
+					//合并第二第三元素中有包含关系的分笔，从后往前处理
+					mergeProcessList(processList, thirdElement,
+							segmentDirection.equals("up") ? "down" : "up");
+					mergeProcessList(processList, secondElement,
+							segmentDirection.equals("up") ? "down" : "up");
+					
 					resultIndexList.add(i);
 					lastSegmentEndIndex = i;
 					
 					System.out.println("线段端点: "+
-							StockDateUtil.SDF_TIME.format(touchList.get(i).getStartMLine().getBeginTime())+"~"+
-							StockDateUtil.SDF_TIME.format(touchList.get(i).getEndMLine().getEndTime())+" point ");
+							StockDateUtil.SDF_TIME.format(secondElement.getBeginTime()));
+					
+//					System.out.println("线段端点: "+
+//							StockDateUtil.SDF_TIME.format(touchList.get(i).getStartMLine().getBeginTime())+"~"+
+//							StockDateUtil.SDF_TIME.format(touchList.get(i).getEndMLine().getEndTime())+" point ");
 					
 				}else{
 					//是第二种情况，第一元素和第二元素有缺口
 					//需要见识第二特征序列是否出现分型
 					String secondSegmentDirection = segmentDirection.equals("up")?"down":"up";
 					
-					//获取第二特征序列
-					List<FeatureElementDTO> secondElementList = mergeFeatureElement(touchList,segmentDirection,
-							i, touchList.size()-1);
+					// 获取第二特征序列
+					List<FeatureElementDTO> secondElementList = mergeFeatureElement(
+							touchList,
+							secondSegmentDirection.equals("up") ? "down" : "up",
+							i, touchList.size() - 1);
 					
 					if(secondElementList.size()<3){//少于三个，分型无从考究
 						flag = false;
@@ -121,37 +133,53 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					}
 					
 					for(int j = 1;j<secondElementList.size()-1;j++){
-						FeatureElementDTO aDTO = secondElementList.get(i-1);
-						FeatureElementDTO bDTO = secondElementList.get(i);
-						FeatureElementDTO cDTO = secondElementList.get(i+1);
+						FeatureElementDTO aDTO = secondElementList.get(j-1);
+						FeatureElementDTO bDTO = secondElementList.get(j);
+						FeatureElementDTO cDTO = secondElementList.get(j+1);
 						
-						if(segmentDirection.equals("up")){
+						if(secondSegmentDirection.equals("down")){
 							//第二特征分型是底分型
 							if(bDTO.getLow()<aDTO.getLow()&&bDTO.getLow()<cDTO.getLow()
 								&&bDTO.getHigh()<aDTO.getHigh()&&bDTO.getHigh()<cDTO.getHigh()){
 								flag = true;
-//								break;
 							}
-						}else if(segmentDirection.equals("down")){
+						}else if(secondSegmentDirection.equals("up")){
 							//第二特征分型是顶分型
 							if(bDTO.getLow()>aDTO.getLow()&&bDTO.getLow()>cDTO.getLow()
 								&&bDTO.getHigh()>aDTO.getHigh()&&bDTO.getHigh()>cDTO.getHigh()){
 								flag = true;
-//								break;
-							}							
+							}
 						}
 						
 						if(flag == true){
+							
+							//合并第二第三元素中有包含关系的分笔，从后往前处理
+							mergeProcessList(
+									processList,
+									cDTO,
+									secondSegmentDirection.equals("up") ? "down"
+											: "up");
+							mergeProcessList(
+									processList,
+									bDTO,
+									secondSegmentDirection.equals("up") ? "down"
+											: "up");
+							
 							resultIndexList.add(i);
+							System.out.println("线段端点: "+
+									StockDateUtil.SDF_TIME.format(secondElement.getBeginTime()));
+							
 							resultIndexList.add(j);
+							System.out.println("线段端点: "+
+									StockDateUtil.SDF_TIME.format(bDTO.getBeginTime()));
+							
 							lastSegmentEndIndex = j;
 							break;
 						}
-						
 					}
 				}
 				
-				if(flag == true){//无论是第几种情况,新线段反向
+				if(flag == true){//找到线段,无论是第几种情况,新线段反向
 					segmentDirection = segmentDirection.equals("up")?"down":"up";
 					break;
 				}
@@ -163,7 +191,6 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 		}
 		
 		//输出结果
-		
 //		for(int i = 0;i<resultIndexList.size();i++){
 //			int resutIndex = (Integer)resultIndexList.get(i);
 //			
@@ -172,6 +199,33 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 //					StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime())+"~"+
 //					StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime())+" point ");
 //		}
+		
+	}
+	
+	/**
+	 * 合并第二第三元素中有包含关系的分笔，从后往前处理
+	 */
+	public static void mergeProcessList(LinkedList<TouchDTO> processList,FeatureElementDTO featureElement,String featureDirection){
+		
+		List<Integer> touchIndexList = featureElement.getTouchIndexList();
+		
+		int startIndex = touchIndexList.get(0);
+		int endIndex = touchIndexList.get(touchIndexList.size()-1);
+		
+		TouchDTO headDTO = processList.get(startIndex);
+		TouchDTO tailDTO = processList.get(endIndex);
+		
+		TouchDTO newDTO = new TouchDTO();
+		newDTO.setDirection(featureDirection);
+		newDTO.setStartMLine(headDTO.getStartMLine());
+		newDTO.setEndMLine(tailDTO.getEndMLine());
+		
+		//从后往前删
+		for(int i = endIndex;i>= startIndex;i--){
+			processList.remove(i);
+		}
+		
+		processList.add(startIndex, newDTO);
 		
 	}
 	
@@ -220,11 +274,6 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 		return firstElement;
 	}
 	
-	public static void mergeTouchList(){
-			
-	}
-	
-	
 	/**
 	 * 处理特征序列的合并关系
 	 * 
@@ -248,7 +297,7 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					elementDTO.setHigh(touchDTO.getStartMLine().getHigh());
 					elementDTO.setLow(touchDTO.getEndMLine().getLow());	
 				}
-				elementDTO.setElementIndex(i);
+				elementDTO.getTouchIndexList().add(i);
 				featureElementList.add(elementDTO);
 			}
 		}
@@ -268,16 +317,19 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 				if((lastDTO.getHigh()>=thisDTO.getHigh()&&lastDTO.getLow()<=thisDTO.getLow())
 					||(thisDTO.getHigh()>=lastDTO.getHigh()&&thisDTO.getLow()<=lastDTO.getLow())
 					){
+					
 					//合并
 					mergeDTO.setBeginTime(lastDTO.getBeginTime());
 					mergeDTO.setEndTime(thisDTO.getEndTime());
+					mergeDTO.getTouchIndexList().addAll(lastDTO.getTouchIndexList());//添加前序列分笔编号
+					mergeDTO.getTouchIndexList().addAll(thisDTO.getTouchIndexList());//添加后序列分笔编号
 					
 					if(featureDirection.equals("up")){
-						mergeDTO.setHigh(Math.max(lastDTO.getHigh(), thisDTO.getHigh()));
-						mergeDTO.setLow(Math.max(lastDTO.getLow(), thisDTO.getLow()));
-					}else if(featureDirection.equals("down")){
 						mergeDTO.setHigh(Math.min(lastDTO.getHigh(), thisDTO.getHigh()));
 						mergeDTO.setLow(Math.min(lastDTO.getLow(), thisDTO.getLow()));
+					}else if(featureDirection.equals("down")){
+						mergeDTO.setHigh(Math.max(lastDTO.getHigh(), thisDTO.getHigh()));
+						mergeDTO.setLow(Math.max(lastDTO.getLow(), thisDTO.getLow()));
 					}
 					
 					flag=true;
