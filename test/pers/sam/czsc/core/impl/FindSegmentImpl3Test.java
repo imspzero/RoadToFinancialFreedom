@@ -71,7 +71,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 	}
 	
-	public void test67_02() throws ParseException{
+	public void atest67_02() throws ParseException{
 
 		System.out.println("----------begin test67_02----------");
 		
@@ -92,6 +92,39 @@ public class FindSegmentImpl3Test extends TestCase {
 			);
 			
 		}
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+		
+	}
+	
+	
+	public void atest67_03() throws ParseException{
+
+		System.out.println("----------begin test67_03----------");
+		
+		
+		String fileName = System.getProperty("user.dir")+"/resource/67_03/67_03.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+		
+	}	
+	
+	public void atest67_04() throws ParseException{
+
+		System.out.println("----------begin test67_04----------");
+		
+		
+		String fileName = System.getProperty("user.dir")+"/resource/67_04/67_04.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -123,6 +156,23 @@ public class FindSegmentImpl3Test extends TestCase {
 		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
+		
+	}
+	
+	
+	public void testFirstElement() throws ParseException{
+
+		System.out.println("----------begin testFirstElement----------");
+		
+		
+		String fileName = System.getProperty("user.dir")+"/resource/FirstElementTest/¥Œ∏ﬂµ„≤‚ ‘.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
 		
 	}
 	
@@ -171,4 +221,102 @@ public class FindSegmentImpl3Test extends TestCase {
 		System.out.println("");
 		
 	}
+	
+	/**
+	 * ≤‚ ‘Õ¯¬Á…œÕº∆¨µƒ
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void testWeb_01() throws ParseException{
+		
+		System.out.println("----------begin testWeb_01----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/web_01/web_01.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
+	
+	
+	/**
+	 * ≤‚ ‘Õ¯¬Á…œÕº∆¨µƒ
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void testWeb_02() throws ParseException{
+		
+		System.out.println("----------begin testWeb_02----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/web_02/web_02.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
+	
+	/**
+	 * ≤‚ ‘Õ¯¬Á…œÕº∆¨µƒ
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void testWeb_03() throws ParseException{
+		
+		System.out.println("----------begin testWeb_03----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/web_03/web_03.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
+	
+	/**
+	 * ≤‚ ‘Õ¯¬Á…œÕº∆¨µƒ
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void testWeb_04() throws ParseException{
+		
+		System.out.println("----------begin testWeb_04----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/web_04/web_04.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
+	
+	
+	/**
+	 * ≤‚ ‘Õ¯¬Á…œÕº∆¨µƒ
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void testWeb_05() throws ParseException{
+		
+		System.out.println("----------begin testWeb_05----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/web_05/web_05.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
+	
 }

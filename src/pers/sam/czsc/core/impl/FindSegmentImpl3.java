@@ -30,6 +30,7 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 		
 		//取得一开始线段的方向
 		String segmentDirection = "";
+		String nextSegmentDirection="";
 		TouchDTO startTouchDTO = touchList.get(0);
 		if(startTouchDTO.getDirection().equals("up")){
 			segmentDirection = "up";
@@ -109,6 +110,8 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					resultIndexList.add(i);
 					lastSegmentEndIndex = i;
 					
+					nextSegmentDirection = segmentDirection.equals("up")?"down":"up";
+					
 					System.out.println("线段端点: "+
 							StockDateUtil.SDF_TIME.format(secondElement.getBeginTime()));
 					
@@ -141,6 +144,8 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 							//第二特征分型是底分型
 							if(bDTO.getLow()<aDTO.getLow()&&bDTO.getLow()<cDTO.getLow()
 								&&bDTO.getHigh()<aDTO.getHigh()&&bDTO.getHigh()<cDTO.getHigh()){
+								
+								
 								flag = true;
 							}
 						}else if(secondSegmentDirection.equals("up")){
@@ -173,14 +178,16 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 							System.out.println("线段端点: "+
 									StockDateUtil.SDF_TIME.format(bDTO.getBeginTime()));
 							
+							//
 							lastSegmentEndIndex = j;
+							nextSegmentDirection = segmentDirection;
 							break;
 						}
 					}
 				}
 				
-				if(flag == true){//找到线段,无论是第几种情况,新线段反向
-					segmentDirection = segmentDirection.equals("up")?"down":"up";
+				if(flag == true){//找到线段,第一种情况新线段反向，第二种请，新线段与原线段同向
+					segmentDirection = nextSegmentDirection;
 					break;
 				}
 			}
