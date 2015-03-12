@@ -1,6 +1,7 @@
 package pers.sam.czsc.core.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,6 +77,13 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 				FeatureElementDTO secondElement = afterElementList.get(0);
 				FeatureElementDTO thirdElement = afterElementList.get(1);
 				
+				// 判断i的起点是否是第二元素的极值
+				if (hasHigherOrLowerPoint(secondElement, segmentDirection,
+						processList,i)) {
+					flag = false;
+					continue;
+				}
+				
 				//是否存在分型
 				if(segmentDirection.equals("up")){
 					//顶分型
@@ -140,12 +148,29 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 						FeatureElementDTO bDTO = secondElementList.get(j);
 						FeatureElementDTO cDTO = secondElementList.get(j+1);
 						
+						// 判断第二分型的第一元素是否存在超过i的极值的点
+						if (hasHigherOrLowerPoint(aDTO, segmentDirection,
+								processList,i)) {
+							flag = false;
+							continue;
+						}
+						// 判断第二分型的第二元素是否存在超过i的极值的点
+						if (hasHigherOrLowerPoint(bDTO, segmentDirection,
+								processList,i)) {
+							flag = false;
+							continue;
+						}
+						// 判断第二分型的第三元素是否存在超过i的极值的点
+						if (hasHigherOrLowerPoint(cDTO, segmentDirection,
+								processList,i)) {
+							flag = false;
+							continue;
+						}
+						
 						if(secondSegmentDirection.equals("down")){
 							//第二特征分型是底分型
 							if(bDTO.getLow()<aDTO.getLow()&&bDTO.getLow()<cDTO.getLow()
 								&&bDTO.getHigh()<aDTO.getHigh()&&bDTO.getHigh()<cDTO.getHigh()){
-								
-								
 								flag = true;
 							}
 						}else if(secondSegmentDirection.equals("up")){
@@ -178,8 +203,9 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 							System.out.println("线段端点: "+
 									StockDateUtil.SDF_TIME.format(bDTO.getBeginTime()));
 							
-							//
-							lastSegmentEndIndex = j;
+							//反查得到实际上的结束点
+							lastSegmentEndIndex = findIndexByEndTime(
+									processList, bDTO.getBeginTime());
 							nextSegmentDirection = segmentDirection;
 							break;
 						}
@@ -207,6 +233,61 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 //					StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime())+" point ");
 //		}
 		
+	}
+	
+	/**
+	 * 根据线段的结束时间，反查结束点的序号
+	 * @param processList
+	 * @param endTime
+	 * @return
+	 */
+	public Integer findIndexByEndTime(LinkedList<TouchDTO> processList,Date endTime){
+		
+		for(int i = 0;i<processList.size();i++){
+			TouchDTO dto = processList.get(i);
+			if(dto.getEndMLine().getEndTime().equals(endTime)){
+				return new Integer(i);
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 判断某合并后的特征序列中，是否有比i元素更高或更低的点
+	 * 
+	 * @param secondElement
+	 * @param segmentDirection
+	 * @return
+	 */
+	public boolean hasHigherOrLowerPoint(FeatureElementDTO secondElement,
+			String segmentDirection, LinkedList<TouchDTO> processList,Integer compareIndex) {
+		
+		TouchDTO compareTouch = processList.get(compareIndex);
+
+		Integer firstIndex = secondElement.getTouchIndexList().get(0);
+		Integer lastIndex = secondElement.getTouchIndexList().get(
+				secondElement.getTouchIndexList().size() - 1);
+		
+		for(int i = firstIndex;i<=lastIndex;i++){
+			
+			if(i==compareIndex){
+				continue;
+			}
+			
+			TouchDTO nTouch = processList.get(i);
+			
+			if("up".equals(segmentDirection)
+					&&nTouch.getHigh()>compareTouch.getHigh()){
+				//线段方向向上，并且合并元素中又更高的点
+				return true;
+			}else if("down".equals(segmentDirection)
+					&&nTouch.getLow()<compareTouch.getLow()){
+				//线段方向向上，并且合并元素中有更低的点
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**

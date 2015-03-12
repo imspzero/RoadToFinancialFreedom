@@ -32,33 +32,32 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 	}
 	
-	public void atestFindSegment() throws ParseException{
-		
-		
-		String fileName = System.getProperty("user.dir")+"/resource/79_01/79_01.txt";
-		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		for(int i = 0;i<touchList.size();i++){
-			TouchDTO touchDTO = touchList.get(i);
-			
-			System.out.println(
-					sdf.format(touchDTO.getStartMLine().getBeginTime())+" "+
-					sdf.format(touchDTO.getEndMLine().getBeginTime())+" "+touchDTO.getStartMLine().getHigh()+" "
-					+touchDTO.getEndMLine().getHigh()
-			);
-			
-		}
-		
-		findSegmentImpl3.findSegment(touchList);
-	}
+//	public void atestFindSegment() throws ParseException{
+//		
+//		
+//		String fileName = System.getProperty("user.dir")+"/resource/79_01/79_01.txt";
+//		
+//		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		for(int i = 0;i<touchList.size();i++){
+//			TouchDTO touchDTO = touchList.get(i);
+//			
+//			System.out.println(
+//					sdf.format(touchDTO.getStartMLine().getBeginTime())+" "+
+//					sdf.format(touchDTO.getEndMLine().getBeginTime())+" "+touchDTO.getStartMLine().getHigh()+" "
+//					+touchDTO.getEndMLine().getHigh()
+//			);
+//			
+//		}
+//		
+//		findSegmentImpl3.findSegment(touchList);
+//	}
 	
 	
-	public void atest67_01() throws ParseException{
+	public void test67_01() throws ParseException{
 
 		System.out.println("----------begin test67_01----------");
-		
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_01/67_01.txt";
 		
@@ -71,27 +70,13 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 	}
 	
-	public void atest67_02() throws ParseException{
+	public void test67_02() throws ParseException{
 
 		System.out.println("----------begin test67_02----------");
-		
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_02/67_02.txt";
 		
 		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
-		
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		for(int i = 0;i<touchList.size();i++){
-			TouchDTO touchDTO = touchList.get(i);
-			
-			System.out.println(
-					sdf.format(touchDTO.getStartMLine().getBeginTime())+" "+
-					sdf.format(touchDTO.getEndMLine().getBeginTime())+" "+touchDTO.getStartMLine().getHigh()+" "
-					+touchDTO.getEndMLine().getHigh()
-			);
-			
-		}
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -101,10 +86,9 @@ public class FindSegmentImpl3Test extends TestCase {
 	}
 	
 	
-	public void atest67_03() throws ParseException{
+	public void test67_03() throws ParseException{
 
 		System.out.println("----------begin test67_03----------");
-		
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_03/67_03.txt";
 		
@@ -117,10 +101,9 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 	}	
 	
-	public void atest67_04() throws ParseException{
+	public void test67_04() throws ParseException{
 
 		System.out.println("----------begin test67_04----------");
-		
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_04/67_04.txt";
 		
@@ -133,30 +116,30 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 	}
 	
-	public void atest79_01() throws ParseException{
+	public void test79_01() throws ParseException{
 
-		System.out.println("test79_01");
-		
+		System.out.println("----------begin test79_01----------");
 		
 		String fileName = System.getProperty("user.dir")+"/resource/79_01/79_01.txt";
 		
 		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
-		
+		System.out.println("----------end----------");
+		System.out.println("");
 	}
 	
-	public void atest79_02() throws ParseException{
+	public void test79_02() throws ParseException{
 
-		System.out.println("test79_02");
-		
+		System.out.println("----------begin test79_02----------");
 		
 		String fileName = System.getProperty("user.dir")+"/resource/79_02/79_02.txt";
 		
 		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
-		
+		System.out.println("----------end----------");
+		System.out.println("");
 	}
 	
 	
@@ -181,7 +164,7 @@ public class FindSegmentImpl3Test extends TestCase {
 	 * mergeFeatureElement()
 	 * @throws ParseException
 	 */
-	public void atestMergeTest_01() throws ParseException{
+	public void testMergeTest_01() throws ParseException{
 		
 		System.out.println("testMergeTest_01");
 		
@@ -204,7 +187,7 @@ public class FindSegmentImpl3Test extends TestCase {
 	 * mergeFeatureElement()
 	 * @throws ParseException
 	 */	
-	public void atestMergeTest_02() throws ParseException{
+	public void testMergeTest_02() throws ParseException{
 		
 		System.out.println("testMergeTest_02");
 		
@@ -310,6 +293,25 @@ public class FindSegmentImpl3Test extends TestCase {
 		System.out.println("----------begin testWeb_05----------");
 		
 		String fileName = System.getProperty("user.dir")+"/resource/web_05/web_05.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
+	
+	/**
+	 * ≤‚ ‘Õ¯¬Á…œÕº∆¨µƒ
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void testWeb_06() throws ParseException{
+		
+		System.out.println("----------begin testWeb_06----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/web_06/web_06.txt";
 		
 		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
 		

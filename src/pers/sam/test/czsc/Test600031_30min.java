@@ -16,43 +16,25 @@ import pers.sam.dto.TouchDTO;
 import pers.sam.util.SqliteDataUtil;
 import pers.sam.util.StockDateUtil;
 
-/**
- * 999999 30分钟分笔
- * @author Administrator
- */
-public class Test999999_30min {
-	
+public class Test600031_30min {
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String stockCode ="999999";
 		
-//		List<StockDayPriceDTO> priceList = 
-//			SqliteDataUtil.getStock30MinData(stockCode,"2012-12-03","2014-08-28");
+		String stockCode ="600031";
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinData(stockCode,"2014-04-10","2014-08-28");
+			SqliteDataUtil.getStock30MinData(stockCode,"2014-10-28","2014-11-06");
 		
 		System.out.println(priceList.size());
+		
 		
 		/**
 		 * K线合并、顶底分型信息
 		 */
 		List<MergeLineDTO> mergeLineList = new ArrayList();
-		
-		
-//		//补充虚拟的顶和底，减少后续的迭代量
-//		MergeLineDTO firstMLineDTO = new MergeLineDTO();
-//		firstMLineDTO.setStickNumber(1);
-//		firstMLineDTO.setBeginTime(sdf.parse("1990-1-1"));
-//		firstMLineDTO.setEndTime(sdf.parse("1990-1-1"));
-//		firstMLineDTO.setHigh(0.0);
-//		firstMLineDTO.setLow(0.0);
-//		firstMLineDTO.setIsBottom("Y");
-//		firstMLineDTO.setIsPeak("N");
-//		mergeLineList.add(firstMLineDTO);
 		
 		//从1990-01-01开始
 		StockKLinePriceDTO priceDTO = priceList.get(0);
@@ -71,8 +53,7 @@ public class Test999999_30min {
 		 * 开始模拟，交易过程
 		 */
 		
-		FindPeakAndBottomInterface findPeakAndBottomIntf
-	 		= new FindPeakAndBottomImpl2();
+		FindPeakAndBottomInterface findPeakAndBottomIntf = new FindPeakAndBottomImpl2();
 		
 		for(int i = 1;i<priceList.size();i++){
 			
@@ -158,7 +139,7 @@ public class Test999999_30min {
 		
 		FindSegmentInterface findSegmentIntf = new FindSegmentImpl3();
 		findSegmentIntf.findSegment(touchList);
-		
 	}
-
+	
+	
 }
