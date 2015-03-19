@@ -45,9 +45,13 @@ public class InsertData {
 //		String stockCode ="999999";
 //		insert30MinStockData(stockCode,filePath);		
 		
-		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\600031-30min.csv";
-		String stockCode ="600031";
-		insert30MinStockData(stockCode,filePath);
+//		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\600031-30min.csv";
+//		String stockCode ="600031";
+//		insert30MinStockData(stockCode,filePath);
+		
+		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_day.csv";
+		String stockCode ="999999";
+		insertDayStockData(stockCode,filePath);
 		
 	}
 	

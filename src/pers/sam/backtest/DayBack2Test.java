@@ -15,7 +15,7 @@ public class DayBack2Test {
 		// TODO Auto-generated method stub
 		String stockCode ="000100";
 		
-		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getDayStockData(stockCode);
+		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getDayStockData(stockCode,"","");
 		
 		/**
 		 * 

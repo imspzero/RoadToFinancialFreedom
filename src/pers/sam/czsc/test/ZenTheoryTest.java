@@ -17,7 +17,7 @@ public class ZenTheoryTest {
 		
 		String stockCode ="000100";
 		
-		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getDayStockData(stockCode);
+		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getDayStockData(stockCode,"","");
 		
 		/**
 		 * 资产初始化

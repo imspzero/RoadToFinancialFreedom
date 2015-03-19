@@ -121,7 +121,8 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					nextSegmentDirection = segmentDirection.equals("up")?"down":"up";
 					
 					System.out.println("线段端点: "+
-							StockDateUtil.SDF_TIME.format(secondElement.getBeginTime()));
+							StockDateUtil.SDF_TIME.format(secondElement.getBeginTime())+
+							" 第一种情况");
 					
 //					System.out.println("线段端点: "+
 //							StockDateUtil.SDF_TIME.format(touchList.get(i).getStartMLine().getBeginTime())+"~"+
@@ -134,9 +135,9 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					
 					// 获取第二特征序列
 					List<FeatureElementDTO> secondElementList = mergeFeatureElement(
-							touchList,
+							processList,
 							secondSegmentDirection.equals("up") ? "down" : "up",
-							i, touchList.size() - 1);
+							i, processList.size() - 1);
 					
 					if(secondElementList.size()<3){//少于三个，分型无从考究
 						flag = false;
@@ -243,9 +244,10 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 	 */
 	public Integer findIndexByEndTime(LinkedList<TouchDTO> processList,Date endTime){
 		
-		for(int i = 0;i<processList.size();i++){
+		for(int i = processList.size()-1;i<processList.size();i--){
 			TouchDTO dto = processList.get(i);
-			if(dto.getEndMLine().getEndTime().equals(endTime)){
+			if(dto.getEndMLine().getEndTime().compareTo(endTime)>=0
+					&&dto.getStartMLine().getBeginTime().compareTo(endTime)<=0){
 				return new Integer(i);
 			}
 		}

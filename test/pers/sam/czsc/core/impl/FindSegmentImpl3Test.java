@@ -321,4 +321,23 @@ public class FindSegmentImpl3Test extends TestCase {
 		System.out.println("");
 	}
 	
+	
+	/**
+	 * 测自己的分笔数据
+	 * mergeFeatureElement()
+	 * @throws ParseException
+	 */	
+	public void test600031_test_01() throws ParseException{
+		
+		System.out.println("----------begin test600031_test_01----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/600031_test_01/600031_test_01.txt";
+		
+		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		
+		findSegmentImpl3.findSegment(touchList);
+		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
 }

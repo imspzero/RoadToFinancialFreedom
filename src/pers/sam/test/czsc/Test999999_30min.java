@@ -33,7 +33,7 @@ public class Test999999_30min {
 //			SqliteDataUtil.getStock30MinData(stockCode,"2012-12-03","2014-08-28");
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinData(stockCode,"2014-04-10","2014-08-28");
+			SqliteDataUtil.getStock30MinDataByDay(stockCode,"2014-04-10","2014-08-28");
 		
 		System.out.println(priceList.size());
 		

@@ -16,24 +16,17 @@ import pers.sam.dto.TouchDTO;
 import pers.sam.util.SqliteDataUtil;
 import pers.sam.util.StockDateUtil;
 
-public class Test600031_30min {
+public class Test999999_day {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		
-		String stockCode ="600031";
-		
-//		List<StockKLinePriceDTO> priceList = 
-//			SqliteDataUtil.getStock30MinData(stockCode,"2014-10-27","2014-12-10");
-		
-//		List<StockKLinePriceDTO> priceList = 
-//			SqliteDataUtil.getStock30MinDataByDay(stockCode,"2014-8-06","2015-03-13");
-//		
+		String stockCode ="999999";
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2014-06-27 09:30:00","2015-03-13 11:00:00");
+			SqliteDataUtil.getDayStockData(stockCode,"2007-10-15","2015-03-19");
 		
 		System.out.println(priceList.size());
 		
