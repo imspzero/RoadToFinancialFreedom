@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import pers.sam.czsc.core.util.GetDataUtil;
+import pers.sam.czsc.core.util.GetTestDataUtil;
 import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.TouchDTO;
 
@@ -217,7 +217,7 @@ public class FindSegmentImpl2Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_01/67_01.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl2.findSegment(touchList);
 		
@@ -233,7 +233,7 @@ public class FindSegmentImpl2Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_02/67_02.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -263,7 +263,7 @@ public class FindSegmentImpl2Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/79_01/79_01.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl2.findSegment(touchList);
 		

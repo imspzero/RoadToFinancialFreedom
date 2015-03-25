@@ -43,6 +43,55 @@ public class StockDateUtil {
 	}
 	
 	/**
+	 * 输入yyyy/MM/dd-HH:mm得出5分钟之前的时间点
+	 * @param dateStr
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String get5MinOpenTime(final String dateStr) throws ParseException{
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
+		String dayStr=(dateStr.split("-")[0]).replace("/", "-");
+		dayStr=sdf.format(sdf.parse(dayStr));
+		
+		sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+		Date date = null;
+		if("13:00".equals(dateStr.split("-")[1])){//国信数据，特殊处理 2014/09/29-13:00
+			date = sdf.parse(dayStr+" "+"11:25:00");
+		}else{
+			date = sdf.parse(dayStr+" "+dateStr.split("-")[1]+":00");
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			c.add(Calendar.MINUTE, -5);
+			date = c.getTime();
+		}
+		return sdf.format(date);
+	}
+	
+	/**
+	 * 输入yyyy/MM/dd-HH:mm得出当前的时间点
+	 * @param dateStr
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String get5MinCloseTime(final String dateStr) throws ParseException{
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
+		String dayStr=(dateStr.split("-")[0]).replace("/", "-");
+		dayStr=sdf.format(sdf.parse(dayStr));
+		
+		sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+		Date date =null;
+		if("13:00".equals(dateStr.split("-")[1])){
+			date = sdf.parse(dayStr+" "+"11:30:00");;
+		}else{
+			date = sdf.parse(dayStr+" "+dateStr.split("-")[1]+":00");
+		} 
+
+		return sdf.format(date);
+	}		
+	
+	/**
 	 * 输入yyyy/MM/dd-HH:mm得出30分钟之前的时间点
 	 * @param dateStr
 	 * @return

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import pers.sam.czsc.core.util.GetDataUtil;
+import pers.sam.czsc.core.util.GetTestDataUtil;
 import pers.sam.dto.FeatureElementDTO;
 import pers.sam.dto.TouchDTO;
 
@@ -61,7 +61,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_01/67_01.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -76,7 +76,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_02/67_02.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -92,7 +92,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_03/67_03.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -107,7 +107,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/67_04/67_04.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -122,7 +122,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/79_01/79_01.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		System.out.println("----------end----------");
@@ -135,7 +135,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/79_02/79_02.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		System.out.println("----------end----------");
@@ -150,7 +150,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/FirstElementTest/¥Œ∏ﬂµ„≤‚ ‘.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -170,7 +170,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/mergeTest_01/merge_01.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		List<FeatureElementDTO> featureList = 
 			findSegmentImpl3.mergeFeatureElement(touchList, "down", 0, 12);
@@ -193,7 +193,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/mergeTest_02/merge_02.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		List<FeatureElementDTO> featureList = 
 			findSegmentImpl3.mergeFeatureElement(touchList, "up", 0, 8);
@@ -216,7 +216,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/web_01/web_01.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -236,7 +236,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/web_02/web_02.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -255,7 +255,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/web_03/web_03.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -274,7 +274,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/web_04/web_04.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -294,7 +294,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/web_05/web_05.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -313,7 +313,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/web_06/web_06.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		
@@ -333,7 +333,7 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		String fileName = System.getProperty("user.dir")+"/resource/600031_test_01/600031_test_01.txt";
 		
-		List <TouchDTO>touchList = GetDataUtil.getTestData(fileName);
+		List <TouchDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
 		findSegmentImpl3.findSegment(touchList);
 		

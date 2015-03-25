@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
+import pers.sam.dto.StockKLinePriceDTO;
+import pers.sam.util.SqliteDataUtil;
 import pers.sam.util.StockDateUtil;
 
 import com.csvreader.CsvReader;
@@ -48,10 +51,26 @@ public class InsertData {
 //		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\600031-30min.csv";
 //		String stockCode ="600031";
 //		insert30MinStockData(stockCode,filePath);
+//		
+//		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_day.csv";
+//		String stockCode ="999999";
+//		insertDayStockData(stockCode,filePath);
+	
+//		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\601318_30min.csv";
+//		String stockCode ="601318";
+//		insert30MinStockData(stockCode,filePath);		
 		
-		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_day.csv";
-		String stockCode ="999999";
-		insertDayStockData(stockCode,filePath);
+//		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\601318_5min.csv";
+//		String stockCode ="601318";
+//		insert5MinStockData(stockCode,filePath);
+		
+//		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\601600_day.csv";
+//		String stockCode ="601600";
+//		insertDayStockData(stockCode,filePath);
+		
+		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\601600_30min.csv";
+		String stockCode ="601600";
+		insert30MinStockData(stockCode,filePath);
 		
 	}
 	
@@ -101,12 +120,105 @@ public class InsertData {
 			String dateStr = reader.get(0);
 			dateStr=dateStr.replace('/', '-');
 			
+			//去重
+			List<StockKLinePriceDTO> resultList = 
+				SqliteDataUtil.getDayStockData(stockCode,sdf.format(sdf.parse(dateStr)),sdf.format(sdf.parse(dateStr)));
+			if(resultList.size()>0){
+				continue;
+			}
+			
 			String sql = "insert into STOCK_DAY_DATA"+
 					"(code,day,begin_time,end_time,open,high,low,close,ma5,ma10,ma20,ma60,volumn,mavol1,mavol2,dif,dea,macd) values ("+
 					"'"+stockCode+"',"+
 					"'"+sdf.format(sdf.parse(dateStr))+"',"+
 					"'"+StockDateUtil.getDayOpenTime(dateStr)+"',"+
 					"'"+StockDateUtil.getDayCloseTime(dateStr)+"',"+
+					"'"+reader.get(1)+"',"+
+					"'"+reader.get(2)+"',"+
+					"'"+reader.get(3)+"',"+
+					"'"+reader.get(4)+"',"+
+					"'"+reader.get(6)+"',"+
+					"'"+reader.get(7)+"',"+
+					"'"+reader.get(8)+"',"+
+					"'"+reader.get(9)+"',"+
+					"'"+reader.get(10)+"',"+
+					"'"+reader.get(11)+"',"+
+					"'"+reader.get(12)+"',"+
+					"'"+reader.get(13)+"',"+
+					"'"+reader.get(14)+"',"+
+					"'"+reader.get(15)+"'"+
+					");";
+			System.out.println(sql);
+			
+			stmt.executeUpdate(sql);	
+		}
+	    stmt.close();
+	    c.commit();
+	    c.close();
+		reader.close();
+	}
+	
+	/**
+	 * 插入5分钟线数据
+	 * 附件日期是格式： yyyy/MM/dd-10:00
+	 * @param stockCode
+	 * @param filePath
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	private static void insert5MinStockData(String stockCode,String filePath)
+			throws FileNotFoundException, IOException, ClassNotFoundException,
+			SQLException, ParseException {
+		CsvReader reader = new CsvReader(filePath);
+		
+		//跳过前五行
+		for(int i = 0;i<5;i++){
+			reader.readRecord();
+		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Connection c = null;
+		Statement stmt = null;
+		Class.forName("org.sqlite.JDBC");
+	    c = DriverManager.getConnection("jdbc:sqlite:myStock.db");
+	    c.setAutoCommit(false);
+	    stmt = c.createStatement();
+		
+		while(reader.readRecord()){
+//			System.out.println(reader.getColumnCount());
+//			System.out.println(reader.get(0)+"\t"+reader.get(1)+"\t"+reader.get(2)
+//			          +"\t"+reader.get(3)+"\t"+reader.get(4)+"\t"+reader.get(5));
+//			
+			if(null==reader.get(1)||"".equals(reader.get(1))){
+				continue;
+			}
+			
+			//yyyy/MM/dd-10:00
+			String dateStr = reader.get(0);
+			
+			String dayStr=dateStr.split("-")[0];
+			dayStr=dayStr.replace('/', '-');
+			
+			dayStr=sdf.format(sdf.parse(dayStr));
+			
+			
+			//去重
+			List<StockKLinePriceDTO> resultList = 
+				SqliteDataUtil.getStock5MinDataByTime(stockCode,StockDateUtil.get5MinOpenTime(dateStr),StockDateUtil.get5MinCloseTime(dateStr));
+			if(resultList.size()>0){
+				continue;
+			}
+			
+			String sql = "insert into STOCK_5MIN_DATA"+
+					"(code,day,begin_time,end_time,open,high,low,close,ma5,ma10,ma20,ma60,volumn,mavol1,mavol2,dif,dea,macd) values ("+
+					"'"+stockCode+"',"+
+					"'"+dayStr+"',"+
+					"'"+StockDateUtil.get5MinOpenTime(dateStr)+"',"+
+					"'"+StockDateUtil.get5MinCloseTime(dateStr)+"',"+
 					"'"+reader.get(1)+"',"+
 					"'"+reader.get(2)+"',"+
 					"'"+reader.get(3)+"',"+
@@ -179,6 +291,12 @@ public class InsertData {
 			
 			dayStr=sdf.format(sdf.parse(dayStr));
 			
+			//去重
+			List<StockKLinePriceDTO> resultList = 
+				SqliteDataUtil.getStock30MinDataByTime(stockCode,StockDateUtil.get30MinOpenTime(dateStr),StockDateUtil.get30MinCloseTime(dateStr));
+			if(resultList.size()>0){
+				continue;
+			}
 			
 			String sql = "insert into STOCK_30MIN_DATA"+
 					"(code,day,begin_time,end_time,open,high,low,close,ma5,ma10,ma20,ma60,volumn,mavol1,mavol2,dif,dea,macd) values ("+
@@ -324,6 +442,13 @@ public class InsertData {
 			//yyyy/MM/dd-10:00
 			String dateStr = reader.get(0);
 			dateStr=dateStr.replace('/', '-');
+			
+			//去重
+			List<StockKLinePriceDTO> resultList = 
+				SqliteDataUtil.getStockMonthData(stockCode,sdf.format(sdf.parse(dateStr)),sdf.format(sdf.parse(dateStr)));
+			if(resultList.size()>0){
+				continue;
+			}
 			
 			String sql = "insert into STOCK_MONTH_DATA"+
 					"(code,day,begin_time,end_time,open,high,low,close,ma5,ma10,ma20,ma60,volumn,mavol1,mavol2,dif,dea,macd) values ("+
