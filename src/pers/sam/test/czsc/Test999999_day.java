@@ -1,5 +1,9 @@
 package pers.sam.test.czsc;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +14,7 @@ import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
 import pers.sam.czsc.util.ZenTheoryUtil;
+import pers.sam.data.InsertDataUtil;
 import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
 import pers.sam.dto.TouchDTO;
@@ -20,16 +25,24 @@ public class Test999999_day {
 
 	/**
 	 * @param args
+	 * @throws ParseException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException, ParseException {
 		
 		String stockCode ="999999";
 		
+		//插入数据
+		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_day.csv";
+		InsertDataUtil.insertDayStockData(stockCode, filePath);
+		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getDayStockData(stockCode,"2007-10-15","2015-03-19");
+			SqliteDataUtil.getDayStockData(stockCode,"2007-10-15","2015-05-15");
 		
 		System.out.println(priceList.size());
-		
 		
 		/**
 		 * K线合并、顶底分型信息

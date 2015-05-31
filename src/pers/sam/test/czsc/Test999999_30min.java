@@ -1,5 +1,9 @@
 package pers.sam.test.czsc;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +14,7 @@ import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
 import pers.sam.czsc.util.ZenTheoryUtil;
+import pers.sam.data.InsertDataUtil;
 import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
 import pers.sam.dto.TouchDTO;
@@ -24,16 +29,22 @@ public class Test999999_30min {
 	
 	/**
 	 * @param args
+	 * @throws ParseException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException, ParseException {
 		// TODO Auto-generated method stub
 		String stockCode ="999999";
 		
-//		List<StockDayPriceDTO> priceList = 
-//			SqliteDataUtil.getStock30MinData(stockCode,"2012-12-03","2014-08-28");
+		//插入数据
+		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_30min.csv";
+		InsertDataUtil.insert30MinStockData(stockCode, filePath);
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinDataByDay(stockCode,"2014-04-10","2014-08-28");
+			SqliteDataUtil.getStock30MinDataByDay(stockCode,"2014-04-10","2015-05-16");
 		
 		System.out.println(priceList.size());
 		

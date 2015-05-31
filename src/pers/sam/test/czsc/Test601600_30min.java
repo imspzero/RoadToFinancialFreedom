@@ -26,7 +26,7 @@ public class Test601600_30min {
 		String stockCode ="601600";
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-10-11 09:30:00","2015-03-25 15:00:00");
+			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-10-11 09:30:00","2015-04-13 15:00:00");
 		//开始第一笔的方向
 		String trend = "down";
 		
