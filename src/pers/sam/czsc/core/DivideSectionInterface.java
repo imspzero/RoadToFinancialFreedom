@@ -11,6 +11,13 @@ import pers.sam.czsc.dto.MergeLineDTO;
  */
 public interface DivideSectionInterface {
 	
-	public boolean [] divideSection(List<MergeLineDTO> mergeSticksList);
+	/**
+	 * 分笔主逻辑
+	 * 假如没有找到结果，直接抛出异常
+	 * @param mergeSticksList
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean [] divideSection(List<MergeLineDTO> mergeSticksList) throws Exception;
 	
 }

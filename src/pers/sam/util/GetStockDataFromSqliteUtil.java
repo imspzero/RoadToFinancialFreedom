@@ -11,7 +11,7 @@ import java.util.List;
 import pers.sam.dto.StockKLinePriceDTO;
 
 /**
- * 取数工具类(sqlite)
+ * 取数工具类(sqlite)(A股)
  * @author lizandeng(Sam Lee)
  * @version 2015-5-31 下午03:06:39
  */

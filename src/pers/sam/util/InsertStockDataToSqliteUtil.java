@@ -15,7 +15,7 @@ import pers.sam.dto.StockKLinePriceDTO;
 import com.csvreader.CsvReader;
 
 /**
- * A股数据插入工具类（sqlite）
+ * 数据插入工具类（sqlite）(A股)
  * @author lizandeng(Sam Lee)
  * @version 2015-5-31 下午03:10:15
  */

@@ -20,8 +20,9 @@ public class Test601600_day {
 
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		String stockCode ="601600";
 		
@@ -31,7 +32,6 @@ public class Test601600_day {
 		String trend = "down";
 		
 		System.out.println(priceList.size());
-		
 		
 		/**
 		 * K线合并、顶底分型信息

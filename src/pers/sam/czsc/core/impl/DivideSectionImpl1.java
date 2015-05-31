@@ -3,8 +3,11 @@ package pers.sam.czsc.core.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import pers.sam.czsc.core.DivideSectionInterface;
 import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.util.ZenTheoryUtil;
 import pers.sam.dto.StockKLinePriceDTO;
 import pers.sam.util.StockDateUtil;
 
@@ -14,8 +17,14 @@ import pers.sam.util.StockDateUtil;
  *
  */
 public class DivideSectionImpl1 implements DivideSectionInterface {
-
-	public boolean[] divideSection(List<MergeLineDTO> mergeSticksList) {
+    
+	private static Logger logger=Logger.getLogger(DivideSectionImpl1.class);
+	
+	/**
+	 * 分笔
+	 * @throws Exception 
+	 */
+	public boolean[] divideSection(List<MergeLineDTO> mergeSticksList) throws Exception {
 		boolean [] pointArray = new boolean[mergeSticksList.size()];
 		for(int i =0;i<pointArray.length;i++){
 			pointArray[i] = false;
@@ -110,18 +119,22 @@ public class DivideSectionImpl1 implements DivideSectionInterface {
 		 * 4.输出分笔结果
 		 */
 		System.out.println("分笔结果 : "+hasResult);
+		if(!hasResult){
+			throw new Exception("按照目前的划分规则，没有找到分笔的结果.");
+		}
+		
 		
 		for(int i = 0;i<resultArray.length;i++){
 			if(resultArray[i]==true){
 				MergeLineDTO dto = mergeSticksList.get(pointIndexArray[i]);
 				if(dto.getIsPeak().equals("Y")){
-					System.out.println(pointIndexArray[i]+" "+StockDateUtil.SDF_TIME.format(dto.getBeginTime())+"\t"+
+					logger.info(pointIndexArray[i]+" "+StockDateUtil.SDF_TIME.format(dto.getBeginTime())+"\t"+
 							StockDateUtil.SDF_TIME.format(dto.getEndTime())+"\t"+
 							"合并["+dto.getStickNumber()+"]条K线"+"\t"+
 							"顶["+dto.getLow()+"]["+dto.getHigh()+"]");
 				}
 				if(dto.getIsBottom().equals("Y")){
-					System.out.println(pointIndexArray[i]+" "+StockDateUtil.SDF_TIME.format(dto.getBeginTime())+"\t"+
+					logger.info(pointIndexArray[i]+" "+StockDateUtil.SDF_TIME.format(dto.getBeginTime())+"\t"+
 							StockDateUtil.SDF_TIME.format(dto.getEndTime())+"\t"+
 							"合并["+dto.getStickNumber()+"]条K线"+"\t"+
 							"底 ["+dto.getLow()+"]["+dto.getHigh()+"]");

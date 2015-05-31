@@ -20,8 +20,9 @@ public class Test600031_30min {
 
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		String stockCode ="600031";
 		

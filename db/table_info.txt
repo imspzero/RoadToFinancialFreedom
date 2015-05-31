@@ -1,0 +1,63 @@
+
+由于sqlite没有comment的语法，所以只能在这个文本中粗略记录想过的表信息
+-------------------
+
+--------------------------
+PERIOD_INFO  /*周期信息表*/
+
+CREATE TABLE PERIOD_INFO ( 
+    ID         INTEGER  PRIMARY KEY AUTOINCREMENT,
+    PERIOD_CODE   TEXT  NOT NULL,   /*编码*/
+    DESCRIPTION   TEXT  NOT NULL    /*描述*/
+);
+
+insert into PERIOD_INFO(PERIOD_CODE,DESCRIPTION)values('5min','5分钟');
+insert into PERIOD_INFO(PERIOD_CODE,DESCRIPTION)values('30min','30分钟');
+insert into PERIOD_INFO(PERIOD_CODE,DESCRIPTION)values('day','日');
+insert into PERIOD_INFO(PERIOD_CODE,DESCRIPTION)values('week','周');
+insert into PERIOD_INFO(PERIOD_CODE,DESCRIPTION)values('month','月');
+
+--------------------------
+CREATE TABLE STOCK_PARTING_INFO( /*股票分型信息表*/
+
+    ID         INTEGER  PRIMARY KEY AUTOINCREMENT,
+    CODE       TEXT     NOT NULL, /*股票编码*/
+    PERIOD     TEXT     NOT NULL, /*分析周期编码*/
+    PARTING_DATE        DATETIME NOT NULL, /*分型出现的时间点*/
+    PARTING_DIRECTION  TEXT     NOT NULL, /*笔的方向（在向上还是向下笔中）*/
+    PARTING_STATUS     TEXT     NOT NULL, /*当前的状态（PARTING_STATUS）*/
+    DATE_CREATED TEXT,  /*创建时间*/
+    DATE_UPDATED TEXT   /*最近更新时间*/
+);
+
+
+CREATE TRIGGER TRI_STOCK_PARTING_INFO_AI AFTER INSERT 
+ON STOCK_PARTING_INFO FOR EACH ROW
+BEGIN
+	UPDATE STOCK_PARTING_INFO SET DATE_CREATED = datetime('now','localtime'),DATE_UPDATED= datetime('now','localtime')
+	WHERE ID = new.ID;
+END;
+
+
+CREATE TRIGGER TRI_STOCK_PARTING_INFO_AU AFTER UPDATE 
+ON STOCK_PARTING_INFO FOR EACH ROW
+BEGIN
+	UPDATE STOCK_PARTING_INFO SET DATE_UPDATED= datetime('now','localtime')
+	WHERE ID = new.ID;
+END;
+
+--------------------------
+
+CREATE TABLE PARTING_STATUS ( /*分型状态信息表*/
+    ID         INTEGER  PRIMARY KEY AUTOINCREMENT,
+    STATUS_CODE   TEXT  NOT NULL, /*分型状态编码*/
+    DESCRIPTION   TEXT  NOT NULL  /*描述*/
+);
+
+
+INSERT INTO PARTING_STATUS(STATUS_CODE,DESCRIPTION)VALUES('P[0]-forming','分型构造中');
+INSERT INTO PARTING_STATUS(STATUS_CODE,DESCRIPTION)VALUES('P[1]-extending','分型确认延伸为笔的过程中');
+INSERT INTO PARTING_STATUS(STATUS_CODE,DESCRIPTION)VALUES('D[1]-up','向上的笔');
+INSERT INTO PARTING_STATUS(STATUS_CODE,DESCRIPTION)VALUES('D[-1]-dowm','向下的笔');
+--------------------------
+

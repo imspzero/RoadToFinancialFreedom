@@ -24,8 +24,9 @@ public class Test601600_30min {
 	
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		String stockCode ="601600";
 		
@@ -144,6 +145,5 @@ public class Test601600_30min {
 		FindSegmentInterface findSegmentIntf = new FindSegmentImpl3();
 		findSegmentIntf.findSegment(touchList);
 	}
-	
 	
 }

@@ -20,7 +20,7 @@ public class ZenTheoryUtilTest extends TestCase {
 
 	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
-	public void atestDivideSection(){
+	public void atestDivideSection() throws Exception{
 		
 		String stockCode ="T00001";
 		
@@ -102,7 +102,7 @@ public class ZenTheoryUtilTest extends TestCase {
 		
 	}
 	
-	public void test999999DivideSection() throws ParseException{
+	public void test999999DivideSection() throws Exception{
 		
 		String stockCode ="999999";
 		

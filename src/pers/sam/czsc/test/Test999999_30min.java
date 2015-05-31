@@ -29,13 +29,9 @@ public class Test999999_30min {
 	
 	/**
 	 * @param args
-	 * @throws ParseException 
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException, ParseException {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		String stockCode ="999999";
 		
