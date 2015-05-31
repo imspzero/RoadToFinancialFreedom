@@ -1,4 +1,4 @@
-package pers.sam.dto;
+package pers.sam.czsc.dto;
 
 /**
  * ·Ö±ÊDTO

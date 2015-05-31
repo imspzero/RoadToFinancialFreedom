@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import pers.sam.dto.MergeLineDTO;
-import pers.sam.dto.TouchDTO;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 
 public class FindSegmentImpl1Test extends TestCase {
 	

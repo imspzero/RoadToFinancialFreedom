@@ -2,6 +2,11 @@ package pers.sam.dto;
 
 import java.util.Date;
 
+/**
+ * KÏßdto
+ * @author lizandeng(Sam Lee)
+ * @version 2015-5-31 ÏÂÎç03:16:28
+ */
 public class StockKLinePriceDTO {
 	
 	private Date day;

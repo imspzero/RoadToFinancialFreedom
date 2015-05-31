@@ -1,5 +1,9 @@
-package pers.sam.test.czsc;
+package pers.sam.czsc.test;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,29 +13,36 @@ import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
-import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.dto.TouchDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
+import pers.sam.util.InsertStockDataToSqliteUtil;
 import pers.sam.util.StockDateUtil;
 
-public class Test601600_30min {
+public class Test999999_day {
 
 	/**
 	 * @param args
+	 * @throws ParseException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException, ParseException {
 		
-		String stockCode ="601600";
+		String stockCode ="999999";
+		
+		//插入数据
+		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_day.csv";
+		InsertStockDataToSqliteUtil.insertDayStockData(stockCode, filePath);
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-10-11 09:30:00","2015-04-13 15:00:00");
-		//开始第一笔的方向
-		String trend = "down";
+			GetStockDataFromSqliteUtil.getDayStockData(stockCode,"2007-10-15","2015-05-15");
 		
 		System.out.println(priceList.size());
-		
 		
 		/**
 		 * K线合并、顶底分型信息
@@ -48,6 +59,8 @@ public class Test601600_30min {
 		mergeLineDTO.setLow(priceDTO.getLow());
 		mergeLineDTO.getMemberList().add(priceDTO);
 		mergeLineList.add(mergeLineDTO);
+		
+		String trend = "up";
 		
 		/**
 		 * 开始模拟，交易过程

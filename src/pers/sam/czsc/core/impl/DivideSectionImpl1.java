@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pers.sam.czsc.core.DivideSectionInterface;
-import pers.sam.dto.MergeLineDTO;
+import pers.sam.czsc.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
 import pers.sam.util.StockDateUtil;
 

@@ -1,9 +1,5 @@
-package pers.sam.test.czsc;
+package pers.sam.czsc.test;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,57 +9,35 @@ import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
-import pers.sam.data.InsertDataUtil;
-import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.dto.TouchDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 import pers.sam.util.StockDateUtil;
 
-/**
- * 999999 30分钟分笔
- * @author Administrator
- */
-public class Test999999_30min {
-	
+public class Test601318_5min {
+
 	/**
 	 * @param args
-	 * @throws ParseException 
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException, ParseException {
-		// TODO Auto-generated method stub
-		String stockCode ="999999";
+	public static void main(String[] args) {
 		
-		//插入数据
-		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_30min.csv";
-		InsertDataUtil.insert30MinStockData(stockCode, filePath);
+		String stockCode ="601318";
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinDataByDay(stockCode,"2014-04-10","2015-05-16");
+			GetStockDataFromSqliteUtil.getStock5MinDataByTime(stockCode,"2014-10-27 14:45:00","2015-03-23 15:00:00");
+		
+//		List<StockKLinePriceDTO> priceList = 
+//			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-07-29 10:00:00","2015-03-19 14:30:00");
 		
 		System.out.println(priceList.size());
+		
 		
 		/**
 		 * K线合并、顶底分型信息
 		 */
 		List<MergeLineDTO> mergeLineList = new ArrayList();
-		
-		
-//		//补充虚拟的顶和底，减少后续的迭代量
-//		MergeLineDTO firstMLineDTO = new MergeLineDTO();
-//		firstMLineDTO.setStickNumber(1);
-//		firstMLineDTO.setBeginTime(sdf.parse("1990-1-1"));
-//		firstMLineDTO.setEndTime(sdf.parse("1990-1-1"));
-//		firstMLineDTO.setHigh(0.0);
-//		firstMLineDTO.setLow(0.0);
-//		firstMLineDTO.setIsBottom("Y");
-//		firstMLineDTO.setIsPeak("N");
-//		mergeLineList.add(firstMLineDTO);
 		
 		//从1990-01-01开始
 		StockKLinePriceDTO priceDTO = priceList.get(0);
@@ -82,8 +56,7 @@ public class Test999999_30min {
 		 * 开始模拟，交易过程
 		 */
 		
-		FindPeakAndBottomInterface findPeakAndBottomIntf
-	 		= new FindPeakAndBottomImpl2();
+		FindPeakAndBottomInterface findPeakAndBottomIntf = new FindPeakAndBottomImpl2();
 		
 		for(int i = 1;i<priceList.size();i++){
 			
@@ -169,7 +142,7 @@ public class Test999999_30min {
 		
 		FindSegmentInterface findSegmentIntf = new FindSegmentImpl3();
 		findSegmentIntf.findSegment(touchList);
-		
 	}
-
+	
+	
 }

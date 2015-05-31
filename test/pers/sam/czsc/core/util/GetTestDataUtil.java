@@ -11,8 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import pers.sam.dto.MergeLineDTO;
-import pers.sam.dto.TouchDTO;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 
 /**
  * 从resource中获取数据

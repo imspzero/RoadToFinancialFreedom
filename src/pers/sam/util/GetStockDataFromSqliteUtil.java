@@ -11,11 +11,11 @@ import java.util.List;
 import pers.sam.dto.StockKLinePriceDTO;
 
 /**
- * 工具类
- * @author hh
- *
+ * 取数工具类(sqlite)
+ * @author lizandeng(Sam Lee)
+ * @version 2015-5-31 下午03:06:39
  */
-public class SqliteDataUtil {
+public class GetStockDataFromSqliteUtil {
 	
 	/**
 	 * 取日线数据

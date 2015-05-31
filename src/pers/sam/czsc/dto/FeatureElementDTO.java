@@ -1,4 +1,4 @@
-package pers.sam.dto;
+package pers.sam.czsc.dto;
 
 import java.util.ArrayList;
 import java.util.Date;

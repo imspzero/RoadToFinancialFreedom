@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * A股日期/时间辅助类
+ * @author lizandeng(Sam Lee)
+ * @version 2015-5-31 下午03:02:45
+ */
 public class StockDateUtil {
-	
 	
 	public static final String YYYY_MM_DD="yyyy-MM-dd";
 	

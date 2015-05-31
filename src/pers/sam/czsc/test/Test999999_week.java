@@ -1,4 +1,4 @@
-package pers.sam.test.czsc;
+package pers.sam.czsc.test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,15 +13,15 @@ import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
-import pers.sam.data.InsertDataUtil;
-import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.dto.TouchDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
+import pers.sam.util.InsertStockDataToSqliteUtil;
 import pers.sam.util.StockDateUtil;
 
-public class Test999999_day {
+public class Test999999_week {
 
 	/**
 	 * @param args
@@ -36,11 +36,12 @@ public class Test999999_day {
 		String stockCode ="999999";
 		
 		//插入数据
-		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_day.csv";
-		InsertDataUtil.insertDayStockData(stockCode, filePath);
+		String filePath = "C:\\Documents and Settings\\Administrator\\桌面\\国信数据导出\\999999_week.csv";
+		InsertStockDataToSqliteUtil.insertWeekStockData(stockCode,filePath);
+		
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getDayStockData(stockCode,"2007-10-15","2015-05-15");
+			GetStockDataFromSqliteUtil.getStockWeekData(stockCode,"2009-07-17","2015-05-15");
 		
 		System.out.println(priceList.size());
 		

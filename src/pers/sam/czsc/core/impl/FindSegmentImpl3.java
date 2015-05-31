@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import pers.sam.czsc.core.FindSegmentInterface;
-import pers.sam.dto.FeatureElementDTO;
-import pers.sam.dto.TouchDTO;
+import pers.sam.czsc.dto.FeatureElementDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.util.StockDateUtil;
 
 /**

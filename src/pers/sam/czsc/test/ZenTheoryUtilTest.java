@@ -1,4 +1,4 @@
-	package pers.sam.test.czsc;
+	package pers.sam.czsc.test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,10 +11,10 @@ import pers.sam.czsc.core.FindPeakAndBottomInterface;
 import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
+import pers.sam.czsc.dto.MergeLineDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
-import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 
 public class ZenTheoryUtilTest extends TestCase {
 
@@ -24,7 +24,7 @@ public class ZenTheoryUtilTest extends TestCase {
 		
 		String stockCode ="T00001";
 		
-		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getTestStockData(stockCode);
+		List<StockKLinePriceDTO> priceList = GetStockDataFromSqliteUtil.getTestStockData(stockCode);
 		
 		System.out.println(priceList.size());
 		
@@ -110,7 +110,7 @@ public class ZenTheoryUtilTest extends TestCase {
 //			SqliteDataUtil.getStockMonthData(stockCode,"2001-03-30","2005-8-31");
 		
 		List<StockKLinePriceDTO> priceList = 
-		SqliteDataUtil.getStockMonthData(stockCode,"1990-12-31","2014-07-30");
+		GetStockDataFromSqliteUtil.getStockMonthData(stockCode,"1990-12-31","2014-07-30");
 		
 		System.out.println(priceList.size());
 		
@@ -201,7 +201,7 @@ public class ZenTheoryUtilTest extends TestCase {
 		
 		String stockCode ="T00002";
 		
-		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getTestStockData(stockCode);
+		List<StockKLinePriceDTO> priceList = GetStockDataFromSqliteUtil.getTestStockData(stockCode);
 		
 		System.out.println(priceList.size());
 		

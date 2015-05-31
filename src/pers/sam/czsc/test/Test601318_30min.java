@@ -1,4 +1,4 @@
-package pers.sam.test.czsc;
+package pers.sam.czsc.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +9,14 @@ import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
-import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.dto.TouchDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 import pers.sam.util.StockDateUtil;
 
-public class Test601318_5min {
+public class Test601318_30min {
 
 	/**
 	 * @param args
@@ -26,7 +26,7 @@ public class Test601318_5min {
 		String stockCode ="601318";
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock5MinDataByTime(stockCode,"2014-10-27 14:45:00","2015-03-23 15:00:00");
+			GetStockDataFromSqliteUtil.getStock30MinDataByTime(stockCode,"2014-03-19 10:30:00","2015-03-19 14:30:00");
 		
 //		List<StockKLinePriceDTO> priceList = 
 //			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-07-29 10:00:00","2015-03-19 14:30:00");

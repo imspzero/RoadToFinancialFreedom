@@ -11,11 +11,11 @@ import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl1;
-import pers.sam.dto.FeatureElementDTO;
-import pers.sam.dto.MergeLineDTO;
+import pers.sam.czsc.dto.FeatureElementDTO;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.dto.TouchDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 import pers.sam.util.StockDateUtil;
 
 public class ZenTheoryUtil {
@@ -26,7 +26,7 @@ public class ZenTheoryUtil {
 		
 		String stockCode ="999999";
 		
-		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getStockMonthData(stockCode,"1990-12-31","2014-07-30");
+		List<StockKLinePriceDTO> priceList = GetStockDataFromSqliteUtil.getStockMonthData(stockCode,"1990-12-31","2014-07-30");
 		
 		/**
 		 * 资产初始化

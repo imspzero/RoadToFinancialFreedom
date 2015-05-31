@@ -2,7 +2,7 @@ package pers.sam.czsc.core;
 
 import java.util.List;
 
-import pers.sam.dto.TouchDTO;
+import pers.sam.czsc.dto.TouchDTO;
 
 /**
  * 线段划分接口

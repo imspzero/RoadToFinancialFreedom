@@ -4,10 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import pers.sam.dto.MergeLineDTO;
-import pers.sam.dto.SegmentDTO;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.SegmentDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 
 public class ZenTheoryTest {
 	
@@ -17,7 +17,7 @@ public class ZenTheoryTest {
 		
 		String stockCode ="000100";
 		
-		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getDayStockData(stockCode,"","");
+		List<StockKLinePriceDTO> priceList = GetStockDataFromSqliteUtil.getDayStockData(stockCode,"","");
 		
 		/**
 		 * 资产初始化

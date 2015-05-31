@@ -1,7 +1,9 @@
-package pers.sam.test.czsc;
+package pers.sam.czsc.test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import pers.sam.czsc.core.DivideSectionInterface;
 import pers.sam.czsc.core.FindPeakAndBottomInterface;
@@ -9,30 +11,31 @@ import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
-import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.dto.TouchDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 import pers.sam.util.StockDateUtil;
 
-public class Test601318_30min {
-
+public class Test601600_30min {
+	
+	private static Logger logger=Logger.getLogger(Test601600_30min.class);
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		
-		String stockCode ="601318";
+		String stockCode ="601600";
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2014-03-19 10:30:00","2015-03-19 14:30:00");
+			GetStockDataFromSqliteUtil.getStock30MinDataByTime(stockCode,"2013-10-11 09:30:00","2015-04-13 15:00:00");
+		//开始第一笔的方向
+		String trend = "down";
 		
-//		List<StockKLinePriceDTO> priceList = 
-//			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-07-29 10:00:00","2015-03-19 14:30:00");
-		
+		logger.info(stockCode+" test...");
 		System.out.println(priceList.size());
-		
 		
 		/**
 		 * K线合并、顶底分型信息
@@ -49,8 +52,6 @@ public class Test601318_30min {
 		mergeLineDTO.setLow(priceDTO.getLow());
 		mergeLineDTO.getMemberList().add(priceDTO);
 		mergeLineList.add(mergeLineDTO);
-		
-		String trend = "up";
 		
 		/**
 		 * 开始模拟，交易过程

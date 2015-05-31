@@ -2,7 +2,7 @@ package pers.sam.czsc.core;
 
 import java.util.List;
 
-import pers.sam.dto.MergeLineDTO;
+import pers.sam.czsc.dto.MergeLineDTO;
 
 /**
  * Ñ°ÕÒ¶¥µ×·ÖÐÍ

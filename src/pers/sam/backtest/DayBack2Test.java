@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 
 public class DayBack2Test {
 
@@ -15,7 +15,7 @@ public class DayBack2Test {
 		// TODO Auto-generated method stub
 		String stockCode ="000100";
 		
-		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getDayStockData(stockCode,"","");
+		List<StockKLinePriceDTO> priceList = GetStockDataFromSqliteUtil.getDayStockData(stockCode,"","");
 		
 		/**
 		 * 

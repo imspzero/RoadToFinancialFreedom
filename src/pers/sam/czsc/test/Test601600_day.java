@@ -1,4 +1,4 @@
-package pers.sam.test.czsc;
+package pers.sam.czsc.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,11 @@ import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
+import pers.sam.czsc.dto.MergeLineDTO;
+import pers.sam.czsc.dto.TouchDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
-import pers.sam.dto.MergeLineDTO;
 import pers.sam.dto.StockKLinePriceDTO;
-import pers.sam.dto.TouchDTO;
-import pers.sam.util.SqliteDataUtil;
+import pers.sam.util.GetStockDataFromSqliteUtil;
 import pers.sam.util.StockDateUtil;
 
 public class Test601600_day {
@@ -26,7 +26,7 @@ public class Test601600_day {
 		String stockCode ="601600";
 		
 		List<StockKLinePriceDTO> priceList = 
-			SqliteDataUtil.getDayStockData(stockCode,"2009-07-31","2015-03-25");
+			GetStockDataFromSqliteUtil.getDayStockData(stockCode,"2009-07-31","2015-03-25");
 		//开始第一笔的方向
 		String trend = "down";
 		

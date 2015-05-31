@@ -3,7 +3,7 @@ package pers.sam.czsc.core.impl;
 import java.util.List;
 
 import pers.sam.czsc.core.FindPeakAndBottomInterface;
-import pers.sam.dto.MergeLineDTO;
+import pers.sam.czsc.dto.MergeLineDTO;
 
 /**
  * 寻找顶底分型--实现1

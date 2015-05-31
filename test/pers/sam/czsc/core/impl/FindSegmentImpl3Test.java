@@ -7,8 +7,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import pers.sam.czsc.core.util.GetTestDataUtil;
-import pers.sam.dto.FeatureElementDTO;
-import pers.sam.dto.TouchDTO;
+import pers.sam.czsc.dto.FeatureElementDTO;
+import pers.sam.czsc.dto.TouchDTO;
 
 public class FindSegmentImpl3Test extends TestCase {
 	
