@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 线段DTO
+ * 线段DTO，代表一段
  * @author Administrator
  *
  */

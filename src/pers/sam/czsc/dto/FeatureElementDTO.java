@@ -20,14 +20,14 @@ public class FeatureElementDTO {
 	private double low;
 	
 	//特性序列对应原分笔序列上的序号
-	private List<Integer> touchIndexList = new ArrayList<Integer>();
+	private List<Integer> strokeIndexList = new ArrayList<Integer>();
 	
-	public List<Integer> getTouchIndexList() {
-		return touchIndexList;
+	public List<Integer> getStrokeIndexList() {
+		return strokeIndexList;
 	}
 
-	public void setTouchIndexList(List<Integer> touchIndexList) {
-		this.touchIndexList = touchIndexList;
+	public void setStrokeIndexList(List<Integer> strokeIndexList) {
+		this.strokeIndexList = strokeIndexList;
 	}
 
 	public Date getBeginTime() {

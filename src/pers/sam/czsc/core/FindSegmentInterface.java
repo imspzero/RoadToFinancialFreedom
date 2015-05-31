@@ -2,7 +2,7 @@ package pers.sam.czsc.core;
 
 import java.util.List;
 
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 
 /**
  * 线段划分接口
@@ -11,6 +11,10 @@ import pers.sam.czsc.dto.TouchDTO;
  */
 public interface FindSegmentInterface {
 	
-	public void findSegment(List <TouchDTO> touchList);
+	/**
+	 * 输入分笔序列strokeList
+	 * @param strokeList
+	 */
+	public void findSegment(List <StrokeDTO> strokeList);
 	
 }

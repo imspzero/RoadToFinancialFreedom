@@ -7,7 +7,7 @@ import java.util.List;
 
 import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.dto.FeatureElementDTO;
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 import pers.sam.util.StockDateUtil;
 
 /**
@@ -19,21 +19,21 @@ import pers.sam.util.StockDateUtil;
  */
 public class FindSegmentImpl3 implements FindSegmentInterface {
 	
-	public void findSegment(List<TouchDTO> touchList) {
+	public void findSegment(List<StrokeDTO> strokeList) {
 		
 		List<Integer> resultIndexList = new ArrayList<Integer>();
 		
-		LinkedList<TouchDTO> processList = new LinkedList<TouchDTO>();
+		LinkedList<StrokeDTO> processList = new LinkedList<StrokeDTO>();
 		
-		for(int i=0;i<touchList.size();i++){
-			processList.add((touchList.get(i)).clone());
+		for(int i=0;i<strokeList.size();i++){
+			processList.add((strokeList.get(i)).clone());
 		}
 		
 		//取得一开始线段的方向
 		String segmentDirection = "";
 		String nextSegmentDirection="";
-		TouchDTO startTouchDTO = touchList.get(0);
-		if(startTouchDTO.getDirection().equals("up")){
+		StrokeDTO startStrokeDTO = strokeList.get(0);
+		if(startStrokeDTO.getDirection().equals("up")){
 			segmentDirection = "up";
 		}else{
 			segmentDirection = "down";
@@ -242,10 +242,10 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 	 * @param endTime
 	 * @return
 	 */
-	public Integer findIndexByEndTime(LinkedList<TouchDTO> processList,Date endTime){
+	public Integer findIndexByEndTime(LinkedList<StrokeDTO> processList,Date endTime){
 		
 		for(int i = processList.size()-1;i<processList.size();i--){
-			TouchDTO dto = processList.get(i);
+			StrokeDTO dto = processList.get(i);
 			if(dto.getEndMLine().getEndTime().compareTo(endTime)>=0
 					&&dto.getStartMLine().getBeginTime().compareTo(endTime)<=0){
 				return new Integer(i);
@@ -262,13 +262,13 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 	 * @return
 	 */
 	public boolean hasHigherOrLowerPoint(FeatureElementDTO secondElement,
-			String segmentDirection, LinkedList<TouchDTO> processList,Integer compareIndex) {
+			String segmentDirection, LinkedList<StrokeDTO> processList,Integer compareIndex) {
 		
-		TouchDTO compareTouch = processList.get(compareIndex);
+		StrokeDTO compareStroke = processList.get(compareIndex);
 
-		Integer firstIndex = secondElement.getTouchIndexList().get(0);
-		Integer lastIndex = secondElement.getTouchIndexList().get(
-				secondElement.getTouchIndexList().size() - 1);
+		Integer firstIndex = secondElement.getStrokeIndexList().get(0);
+		Integer lastIndex = secondElement.getStrokeIndexList().get(
+				secondElement.getStrokeIndexList().size() - 1);
 		
 		for(int i = firstIndex;i<=lastIndex;i++){
 			
@@ -276,14 +276,14 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 				continue;
 			}
 			
-			TouchDTO nTouch = processList.get(i);
+			StrokeDTO nStroke = processList.get(i);
 			
 			if("up".equals(segmentDirection)
-					&&nTouch.getHigh()>compareTouch.getHigh()){
+					&&nStroke.getHigh()>compareStroke.getHigh()){
 				//线段方向向上，并且合并元素中又更高的点
 				return true;
 			}else if("down".equals(segmentDirection)
-					&&nTouch.getLow()<compareTouch.getLow()){
+					&&nStroke.getLow()<compareStroke.getLow()){
 				//线段方向向上，并且合并元素中有更低的点
 				return true;
 			}
@@ -295,17 +295,17 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 	/**
 	 * 合并第二第三元素中有包含关系的分笔，从后往前处理
 	 */
-	public static void mergeProcessList(LinkedList<TouchDTO> processList,FeatureElementDTO featureElement,String featureDirection){
+	public static void mergeProcessList(LinkedList<StrokeDTO> processList,FeatureElementDTO featureElement,String featureDirection){
 		
-		List<Integer> touchIndexList = featureElement.getTouchIndexList();
+		List<Integer> strokeIndexList = featureElement.getStrokeIndexList();
 		
-		int startIndex = touchIndexList.get(0);
-		int endIndex = touchIndexList.get(touchIndexList.size()-1);
+		int startIndex = strokeIndexList.get(0);
+		int endIndex = strokeIndexList.get(strokeIndexList.size()-1);
 		
-		TouchDTO headDTO = processList.get(startIndex);
-		TouchDTO tailDTO = processList.get(endIndex);
+		StrokeDTO headDTO = processList.get(startIndex);
+		StrokeDTO tailDTO = processList.get(endIndex);
 		
-		TouchDTO newDTO = new TouchDTO();
+		StrokeDTO newDTO = new StrokeDTO();
 		newDTO.setDirection(featureDirection);
 		newDTO.setStartMLine(headDTO.getStartMLine());
 		newDTO.setEndMLine(tailDTO.getEndMLine());
@@ -324,7 +324,7 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 	 */
 	private boolean existsGapBetweenFirstAndSecondElement(
 			String segmentDirection, FeatureElementDTO firstElement,
-			TouchDTO secondDTO) {
+			StrokeDTO secondDTO) {
 		return (
 			(segmentDirection.equals("up")&&firstElement.getHigh()<Math.min(secondDTO.getEndMLine().getLow(), secondDTO.getStartMLine().getLow()))||
 			(segmentDirection.equals("down")&&firstElement.getLow()>Math.max(secondDTO.getEndMLine().getHigh(), secondDTO.getStartMLine().getHigh()))
@@ -369,25 +369,25 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 	 * 
 	 * @return
 	 */
-	public static List<FeatureElementDTO> mergeFeatureElement(List<TouchDTO> touchList,
+	public static List<FeatureElementDTO> mergeFeatureElement(List<StrokeDTO> strokeList,
 			String featureDirection, int startIndex, int endIndex) {
 		
 		//由分笔中抓出特征序列
 		List<FeatureElementDTO> featureElementList = new ArrayList<FeatureElementDTO>();
 		for(int i = startIndex;i<=endIndex;i++){
-			TouchDTO touchDTO = touchList.get(i);
-			if(touchDTO.getDirection().equals(featureDirection)){
+			StrokeDTO strokeDTO = strokeList.get(i);
+			if(strokeDTO.getDirection().equals(featureDirection)){
 				FeatureElementDTO elementDTO = new FeatureElementDTO();
-				elementDTO.setBeginTime(touchDTO.getStartMLine().getBeginTime());
-				elementDTO.setEndTime(touchDTO.getEndMLine().getEndTime());
-				if(touchDTO.getDirection().equals("up")){
-					elementDTO.setHigh(touchDTO.getEndMLine().getHigh());
-					elementDTO.setLow(touchDTO.getStartMLine().getLow());
-				}else if(touchDTO.getDirection().equals("down")){
-					elementDTO.setHigh(touchDTO.getStartMLine().getHigh());
-					elementDTO.setLow(touchDTO.getEndMLine().getLow());	
+				elementDTO.setBeginTime(strokeDTO.getStartMLine().getBeginTime());
+				elementDTO.setEndTime(strokeDTO.getEndMLine().getEndTime());
+				if(strokeDTO.getDirection().equals("up")){
+					elementDTO.setHigh(strokeDTO.getEndMLine().getHigh());
+					elementDTO.setLow(strokeDTO.getStartMLine().getLow());
+				}else if(strokeDTO.getDirection().equals("down")){
+					elementDTO.setHigh(strokeDTO.getStartMLine().getHigh());
+					elementDTO.setLow(strokeDTO.getEndMLine().getLow());	
 				}
-				elementDTO.getTouchIndexList().add(i);
+				elementDTO.getStrokeIndexList().add(i);
 				featureElementList.add(elementDTO);
 			}
 		}
@@ -411,8 +411,8 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					//合并
 					mergeDTO.setBeginTime(lastDTO.getBeginTime());
 					mergeDTO.setEndTime(thisDTO.getEndTime());
-					mergeDTO.getTouchIndexList().addAll(lastDTO.getTouchIndexList());//添加前序列分笔编号
-					mergeDTO.getTouchIndexList().addAll(thisDTO.getTouchIndexList());//添加后序列分笔编号
+					mergeDTO.getStrokeIndexList().addAll(lastDTO.getStrokeIndexList());//添加前序列分笔编号
+					mergeDTO.getStrokeIndexList().addAll(thisDTO.getStrokeIndexList());//添加后序列分笔编号
 					
 					if(featureDirection.equals("up")){
 						mergeDTO.setHigh(Math.min(lastDTO.getHigh(), thisDTO.getHigh()));

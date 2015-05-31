@@ -14,7 +14,7 @@ import pers.sam.czsc.core.impl.DivideSectionImpl1;
 import pers.sam.czsc.core.impl.FindPeakAndBottomImpl2;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
 import pers.sam.czsc.dto.MergeLineDTO;
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 import pers.sam.czsc.util.ZenTheoryUtil;
 import pers.sam.dto.StockKLinePriceDTO;
 import pers.sam.util.GetStockDataFromSqliteUtil;
@@ -110,12 +110,12 @@ public class Test999999_day {
 		
 //		boolean sectionResultArray[] = ZenTheoryUtil.divideSection(mergeLineList);
 		
-		List <TouchDTO>touchList = new ArrayList();
-		TouchDTO touch = null;
+		List <StrokeDTO>touchList = new ArrayList();
+		StrokeDTO touch = null;
 		for(int i = 0;i<mergeLineList.size();i++){
 			if(sectionResultArray[i]==true){
 				if(touch == null){
-					touch = new TouchDTO();
+					touch = new StrokeDTO();
 					touch.setStartMLine(mergeLineList.get(i));
 				}else{
 					touch.setEndMLine(mergeLineList.get(i));
@@ -129,7 +129,7 @@ public class Test999999_day {
 					}
 					touchList.add(touch);
 					
-					touch = new TouchDTO();
+					touch = new StrokeDTO();
 					touch.setStartMLine(mergeLineList.get(i));
 				}
 			}
@@ -137,7 +137,7 @@ public class Test999999_day {
 		
 		System.out.println("--------------·Ö±Ê-------------");
 		for(int i = 0;i<touchList.size();i++){
-			TouchDTO touchDTO = touchList.get(i);
+			StrokeDTO touchDTO = touchList.get(i);
 			System.out.println(StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime()) + "  "
 					+ StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime()) + " "
 					+ touchDTO.getDirection());

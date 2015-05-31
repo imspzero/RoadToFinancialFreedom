@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import pers.sam.czsc.dto.MergeLineDTO;
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 
 /**
  * 从resource中获取数据
@@ -37,10 +37,10 @@ public class GetTestDataUtil {
 //		Date lastDate = sdf.parse("1900-1-1");
 //		System.out.println(getNextDate(lastDate));
 		
-		List<TouchDTO> touchList = getTestData(fileName);
+		List<StrokeDTO> touchList = getTestData(fileName);
 		
 		for(int i = 0;i<touchList.size();i++){
-			TouchDTO touchDTO = touchList.get(i);
+			StrokeDTO touchDTO = touchList.get(i);
 			
 			System.out.println(
 					sdf.format(touchDTO.getStartMLine().getBeginTime())+" "+
@@ -58,15 +58,15 @@ public class GetTestDataUtil {
 	 * @return
 	 * @throws ParseException 
 	 */
-	public static List<TouchDTO> getTestData(String fileName) throws ParseException{
+	public static List<StrokeDTO> getTestData(String fileName) throws ParseException{
 		
 		List<Double> numberList = readFileByLines(fileName);
 		
-		List <TouchDTO> touchList = new ArrayList();
+		List <StrokeDTO> touchList = new ArrayList();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		TouchDTO touchDTO = null; 
+		StrokeDTO touchDTO = null; 
 		MergeLineDTO startMLine = null;
 		MergeLineDTO endMLine = null;
 		
@@ -77,7 +77,7 @@ public class GetTestDataUtil {
 		for(int i = 1;i<numberList.size();i++){
 			
 			tailNumber = numberList.get(i);
-			touchDTO = new TouchDTO();
+			touchDTO = new StrokeDTO();
 			
 			startMLine = new MergeLineDTO();
 			startMLine.setBeginTime(lastDate);

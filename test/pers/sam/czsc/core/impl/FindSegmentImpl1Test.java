@@ -7,7 +7,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import pers.sam.czsc.dto.MergeLineDTO;
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 
 public class FindSegmentImpl1Test extends TestCase {
 	
@@ -16,16 +16,16 @@ public class FindSegmentImpl1Test extends TestCase {
 	
 	public void testFindSegment() throws ParseException{
 		
-		List <TouchDTO>touchList = new ArrayList();
+		List <StrokeDTO>touchList = new ArrayList();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		TouchDTO touchDTO = null; 
+		StrokeDTO touchDTO = null; 
 		MergeLineDTO startMLine = null;
 		MergeLineDTO endMLine = null;
 		
 		//0~1
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-1-1"));
 		startMLine.setEndTime(sdf.parse("2014-1-1"));
@@ -45,7 +45,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		touchList.add(touchDTO);
 		
 		//1~2
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-2-1"));
 		startMLine.setEndTime(sdf.parse("2014-2-1"));
@@ -65,7 +65,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		touchList.add(touchDTO);
 		
 		//2~3
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-3-1"));
 		startMLine.setEndTime(sdf.parse("2014-3-1"));
@@ -85,7 +85,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		touchList.add(touchDTO);
 		
 		//3~4
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-4-1"));
 		startMLine.setEndTime(sdf.parse("2014-4-1"));
@@ -105,7 +105,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		touchList.add(touchDTO);
 		
 		//4~5
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-5-1"));
 		startMLine.setEndTime(sdf.parse("2014-5-1"));
@@ -125,7 +125,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		touchList.add(touchDTO);
 		
 		//5~6
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-6-1"));
 		startMLine.setEndTime(sdf.parse("2014-6-1"));
@@ -145,7 +145,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		touchList.add(touchDTO);
 		
 		//6~7
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-7-1"));
 		startMLine.setEndTime(sdf.parse("2014-7-1"));
@@ -166,7 +166,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		
 		
 		//7~8
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-8-1"));
 		startMLine.setEndTime(sdf.parse("2014-8-1"));
@@ -186,7 +186,7 @@ public class FindSegmentImpl1Test extends TestCase {
 		touchList.add(touchDTO);
 		
 		//8~9
-		touchDTO = new TouchDTO();
+		touchDTO = new StrokeDTO();
 		startMLine = new MergeLineDTO();
 		startMLine.setBeginTime(sdf.parse("2014-9-1"));
 		startMLine.setEndTime(sdf.parse("2014-9-1"));

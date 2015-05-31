@@ -5,7 +5,7 @@ import java.util.List;
 
 import pers.sam.czsc.core.FindSegmentInterface;
 import pers.sam.czsc.dto.FeatureElementDTO;
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 import pers.sam.util.StockDateUtil;
 
 /**
@@ -15,14 +15,14 @@ import pers.sam.util.StockDateUtil;
  */
 public class FindSegmentImpl2 implements FindSegmentInterface {
 	
-	public void findSegment(List<TouchDTO> touchList) {
+	public void findSegment(List<StrokeDTO> strokeList) {
 		
 		List resultIndexList = new ArrayList();
 		
 		//取得一开始线段的方向
 		String segmentDirection = "";
-		TouchDTO startTouchDTO = touchList.get(0);
-		if(startTouchDTO.getDirection().equals("up")){
+		StrokeDTO startStrokeDTO = strokeList.get(0);
+		if(startStrokeDTO.getDirection().equals("up")){
 			segmentDirection = "up";
 		}else{
 			segmentDirection = "down";
@@ -37,17 +37,17 @@ public class FindSegmentImpl2 implements FindSegmentInterface {
 			
 			flag = false;
 			
-			if(lastSegmentEndIndex+3>touchList.size()){
+			if(lastSegmentEndIndex+3>strokeList.size()){
 				flag = false;
 				break;
 			}
 			
 			//一线段至少有三笔，所以从三个后的元素开始检查
-			for(int i=lastSegmentEndIndex+3;i<touchList.size();i=i+2){
+			for(int i=lastSegmentEndIndex+3;i<strokeList.size();i=i+2){
 				//假设i是分界点
 				//找到第一元素
 				List<FeatureElementDTO> beforeElementList = mergeFeatureElement(
-						touchList, segmentDirection.equals("up") ? "down"
+						strokeList, segmentDirection.equals("up") ? "down"
 								: "up", lastSegmentEndIndex, i-1);
 //				FeatureElementDTO firstElement = beforeElementList
 //						.get(beforeElementList.size() - 1);
@@ -56,8 +56,8 @@ public class FindSegmentImpl2 implements FindSegmentInterface {
 				
 				// 找到第二第三元素
 				List<FeatureElementDTO> afterElementList = mergeFeatureElement(
-						touchList, segmentDirection.equals("up") ? "down"
-								: "up", i, touchList.size()-1);
+						strokeList, segmentDirection.equals("up") ? "down"
+								: "up", i, strokeList.size()-1);
 				if(afterElementList.size()<2){
 					flag = false;
 					break;
@@ -100,8 +100,8 @@ public class FindSegmentImpl2 implements FindSegmentInterface {
 					String secondSegmentDirection = segmentDirection.equals("up")?"down":"up";
 					
 					//获取第二特征序列
-					List<FeatureElementDTO> secondElementList = mergeFeatureElement(touchList,segmentDirection,
-							i, touchList.size()-1);
+					List<FeatureElementDTO> secondElementList = mergeFeatureElement(strokeList,segmentDirection,
+							i, strokeList.size()-1);
 					
 					if(secondElementList.size()<3){//少于三个，分型无从考究
 						flag = false;
@@ -155,10 +155,10 @@ public class FindSegmentImpl2 implements FindSegmentInterface {
 		for(int i = 0;i<resultIndexList.size();i++){
 			int resutIndex = (Integer)resultIndexList.get(i);
 			
-			TouchDTO touchDTO = touchList.get(resutIndex);
+			StrokeDTO strokeDTO = strokeList.get(resutIndex);
 			System.out.println("线段于 "+
-					StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime())+"~"+
-					StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime())+" point ");
+					StockDateUtil.SDF_TIME.format(strokeDTO.getStartMLine().getBeginTime())+"~"+
+					StockDateUtil.SDF_TIME.format(strokeDTO.getEndMLine().getEndTime())+" point ");
 		}
 		
 	}
@@ -203,23 +203,23 @@ public class FindSegmentImpl2 implements FindSegmentInterface {
 	 * 
 	 * @return
 	 */
-	public static List<FeatureElementDTO> mergeFeatureElement(List<TouchDTO> touchList,
+	public static List<FeatureElementDTO> mergeFeatureElement(List<StrokeDTO> strokeList,
 			String featureDirection, int startIndex, int endIndex) {
 		
 		//由分笔中抓出特征序列
 		List<FeatureElementDTO> featureElementList = new ArrayList<FeatureElementDTO>();
 		for(int i = startIndex;i<=endIndex;i++){
-			TouchDTO touchDTO = touchList.get(i);
-			if(touchDTO.getDirection().equals(featureDirection)){
+			StrokeDTO strokeDTO = strokeList.get(i);
+			if(strokeDTO.getDirection().equals(featureDirection)){
 				FeatureElementDTO elementDTO = new FeatureElementDTO();
-				elementDTO.setBeginTime(touchDTO.getStartMLine().getBeginTime());
-				elementDTO.setEndTime(touchDTO.getEndMLine().getEndTime());
-				if(touchDTO.getDirection().equals("up")){
-					elementDTO.setHigh(touchDTO.getEndMLine().getHigh());
-					elementDTO.setLow(touchDTO.getStartMLine().getLow());
-				}else if(touchDTO.getDirection().equals("down")){
-					elementDTO.setHigh(touchDTO.getStartMLine().getHigh());
-					elementDTO.setLow(touchDTO.getEndMLine().getLow());	
+				elementDTO.setBeginTime(strokeDTO.getStartMLine().getBeginTime());
+				elementDTO.setEndTime(strokeDTO.getEndMLine().getEndTime());
+				if(strokeDTO.getDirection().equals("up")){
+					elementDTO.setHigh(strokeDTO.getEndMLine().getHigh());
+					elementDTO.setLow(strokeDTO.getStartMLine().getLow());
+				}else if(strokeDTO.getDirection().equals("down")){
+					elementDTO.setHigh(strokeDTO.getStartMLine().getHigh());
+					elementDTO.setLow(strokeDTO.getEndMLine().getLow());	
 				}
 				featureElementList.add(elementDTO);
 			}

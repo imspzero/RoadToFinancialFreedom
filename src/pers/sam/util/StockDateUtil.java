@@ -22,7 +22,7 @@ public class StockDateUtil {
 	
 	public static final SimpleDateFormat SDF_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	public static final SimpleDateFormat SDF_day = new SimpleDateFormat("yyyy-MM-dd");
+	public static final SimpleDateFormat SDF_DAY = new SimpleDateFormat("yyyy-MM-dd");
 	
 	/**
 	 * 输入yyyy-MM-dd得出开盘时间

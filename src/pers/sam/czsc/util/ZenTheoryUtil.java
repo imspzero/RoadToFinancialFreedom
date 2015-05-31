@@ -16,7 +16,7 @@ import pers.sam.czsc.core.impl.FindSegmentImpl1;
 import pers.sam.czsc.core.impl.FindSegmentImpl3;
 import pers.sam.czsc.dto.FeatureElementDTO;
 import pers.sam.czsc.dto.MergeLineDTO;
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 import pers.sam.czsc.test.Test601600_30min;
 import pers.sam.dto.StockKLinePriceDTO;
 import pers.sam.util.GetStockDataFromSqliteUtil;
@@ -204,42 +204,42 @@ public class ZenTheoryUtil {
 		DivideSectionInterface divideSectionIntf = new DivideSectionImpl1();
 		boolean sectionResultArray[] = divideSectionIntf.divideSection(mergeLineList);
 		
-		List <TouchDTO>touchList = new ArrayList();
-		TouchDTO touch = null;
+		List <StrokeDTO>strokeList = new ArrayList();
+		StrokeDTO stroke = null;
 		for(int i = 0;i<mergeLineList.size();i++){
 			if(sectionResultArray[i]==true){
-				if(touch == null){
-					touch = new TouchDTO();
-					touch.setStartMLine(mergeLineList.get(i));
+				if(stroke == null){
+					stroke = new StrokeDTO();
+					stroke.setStartMLine(mergeLineList.get(i));
 				}else{
-					touch.setEndMLine(mergeLineList.get(i));
+					stroke.setEndMLine(mergeLineList.get(i));
 					
-					if(touch.getStartMLine().getIsBottom().equals("Y")
-							&&touch.getEndMLine().getIsPeak().equals("Y")){
-						touch.setDirection("up");
-					}else if(touch.getStartMLine().getIsPeak().equals("Y")
-							&&touch.getEndMLine().getIsBottom().equals("Y")){
-						touch.setDirection("down");
+					if(stroke.getStartMLine().getIsBottom().equals("Y")
+							&&stroke.getEndMLine().getIsPeak().equals("Y")){
+						stroke.setDirection("up");
+					}else if(stroke.getStartMLine().getIsPeak().equals("Y")
+							&&stroke.getEndMLine().getIsBottom().equals("Y")){
+						stroke.setDirection("down");
 					}
-					touchList.add(touch);
-					touch = new TouchDTO();
-					touch.setStartMLine(mergeLineList.get(i));
+					strokeList.add(stroke);
+					stroke = new StrokeDTO();
+					stroke.setStartMLine(mergeLineList.get(i));
 				}
 			}
 		}
 		
 		
-		for(int i = 0;i<touchList.size();i++){
-			TouchDTO touchDTO = touchList.get(i);
-			System.out.println(StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime()) + "  "
-					+ StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime()) + " "
-					+ touchDTO.getDirection());
+		for(int i = 0;i<strokeList.size();i++){
+			StrokeDTO strokeDTO = strokeList.get(i);
+			System.out.println(StockDateUtil.SDF_TIME.format(strokeDTO.getStartMLine().getBeginTime()) + "  "
+					+ StockDateUtil.SDF_TIME.format(strokeDTO.getEndMLine().getEndTime()) + " "
+					+ strokeDTO.getDirection());
 		}
 		
 		//4.线段
 		System.out.println("--------------分段-------------");
 		FindSegmentInterface findSegmentIntf = new FindSegmentImpl1();
-		findSegmentIntf.findSegment(touchList);
+		findSegmentIntf.findSegment(strokeList);
 	}
 	
 	/**
@@ -325,17 +325,19 @@ public class ZenTheoryUtil {
 	}
 	
 	/**
-	 * 取得分笔序列,暴力破解(缩减范围、变换第一笔的方向)
+	 * 给定一个日期区间,取得分笔序列,暴力破解(缩减范围、变换第一笔的方向)
 	 * @param stockCode
 	 * @param period
 	 * @param startDay
 	 * @param endDay
-	 * @return
+	 * @return List<StrokeDTO> \List<MergeLineDTO> mergeLineList, boolean sectionResultArray[]
 	 */
-	public static List<TouchDTO> getTouchListByBruceForce(String stockCode,String period,String startDay,String endDay) {
+	public static List<StrokeDTO> getStrokeListByBruceForce(String stockCode,
+			String period, String startDay, String endDay,
+			List<MergeLineDTO> mergeLineList, boolean sectionResultArray[]) {
 		
-		logger.info("*******************getTouchListByBruceForce begin***********************");
-		//stockCode ="601600";
+		logger.info("*******************getStrokeListByBruceForce begin***********************");
+		
 		List<StockKLinePriceDTO> priceList = null;
 		logger.info("获取"+stockCode+" "+period+"数据"+",查询区间["+startDay+"~"+endDay+"]");
 		if (PeriodUtil.PERIOD_5_MIN.equals(period)) {
@@ -358,7 +360,7 @@ public class ZenTheoryUtil {
 		//开始第一笔的方向
 		String trend = "down";
 		System.out.println(priceList.size());
-		List<TouchDTO> touchList = null;
+		List<StrokeDTO> strokeList = null;
 		
 		//暴力破解
 		for(int i = 0;i<priceList.size();i++){
@@ -366,11 +368,12 @@ public class ZenTheoryUtil {
 			try {
 				trend = "up";
 				
-				logger.error("-*-开始日期：" + priceList.get(i).getBeginTime()
+				logger.info("-*-开始日期：" + priceList.get(i).getBeginTime()
 						+ " trend:" + trend + "分笔开始...");
-				
-				touchList = getTouchList(priceList.subList(i, priceList.size()), trend);
-				if(touchList.size()!=0){
+
+				strokeList = getStrokeList(priceList.subList(i, priceList
+						.size()), trend, mergeLineList, sectionResultArray);
+				if (strokeList.size() != 0) {
 					break;
 				}
 			} catch (Exception e) {
@@ -382,11 +385,12 @@ public class ZenTheoryUtil {
 			try {
 				trend = "down";
 				
-				logger.error("-*-开始日期：" + priceList.get(i).getBeginTime()
+				logger.info("-*-开始日期：" + priceList.get(i).getBeginTime()
 						+ " trend:" + trend + "分笔开始...");
 				
-				touchList = getTouchList(priceList.subList(i, priceList.size()), trend);
-				if(touchList.size()!=0){
+				strokeList = getStrokeList(priceList.subList(i, priceList
+						.size()), trend, mergeLineList, sectionResultArray);
+				if (strokeList.size() != 0) {
 					break;
 				}
 			} catch (Exception e) {
@@ -397,24 +401,24 @@ public class ZenTheoryUtil {
 			
 		}
 		
-		logger.info("*******************getTouchListByBruceForce end**************************");
+		logger.info("*******************getStrokeListByBruceForce end**************************");
 		
-		return touchList;
+		return strokeList;
 	}
 	
 	/**
-	 * 获取分笔序列
+	 * 在确定的范围、方向，获取分笔序列
 	 * @param priceList
 	 * @param trend
 	 * @return
 	 * @throws Exception 
 	 */
-	private static List<TouchDTO> getTouchList(List<StockKLinePriceDTO> priceList,
-			String trend) throws Exception {
+	private static List<StrokeDTO> getStrokeList(List<StockKLinePriceDTO> priceList,
+			String trend,List<MergeLineDTO> mergeLineList,boolean sectionResultArray[]) throws Exception {
 		/**
 		 * K线合并、顶底分型信息
 		 */
-		List<MergeLineDTO> mergeLineList = new ArrayList();
+		mergeLineList = new ArrayList();
 		
 		//从1990-01-01开始
 		StockKLinePriceDTO priceDTO = priceList.get(0);
@@ -474,42 +478,43 @@ public class ZenTheoryUtil {
 		
 		//3.分笔
 		DivideSectionInterface divideSectionIntf = new DivideSectionImpl1();
-		boolean sectionResultArray[] = divideSectionIntf.divideSection(mergeLineList);
+		//boolean 
+		sectionResultArray = divideSectionIntf.divideSection(mergeLineList);
 		
-		List <TouchDTO>touchList = new ArrayList();
-		TouchDTO touch = null;
+		List <StrokeDTO>strokeList = new ArrayList();
+		StrokeDTO stroke = null;
 		for(int i = 0;i<mergeLineList.size();i++){
 			if(sectionResultArray[i]==true){
-				if(touch == null){
-					touch = new TouchDTO();
-					touch.setStartMLine(mergeLineList.get(i));
+				if(stroke == null){
+					stroke = new StrokeDTO();
+					stroke.setStartMLine(mergeLineList.get(i));
 				}else{
-					touch.setEndMLine(mergeLineList.get(i));
+					stroke.setEndMLine(mergeLineList.get(i));
 					
-					if(touch.getStartMLine().getIsBottom().equals("Y")
-							&&touch.getEndMLine().getIsPeak().equals("Y")){
-						touch.setDirection("up");
-					}else if(touch.getStartMLine().getIsPeak().equals("Y")
-							&&touch.getEndMLine().getIsBottom().equals("Y")){
-						touch.setDirection("down");
+					if(stroke.getStartMLine().getIsBottom().equals("Y")
+							&&stroke.getEndMLine().getIsPeak().equals("Y")){
+						stroke.setDirection("up");
+					}else if(stroke.getStartMLine().getIsPeak().equals("Y")
+							&&stroke.getEndMLine().getIsBottom().equals("Y")){
+						stroke.setDirection("down");
 					}
-					touchList.add(touch);
+					strokeList.add(stroke);
 					
-					touch = new TouchDTO();
-					touch.setStartMLine(mergeLineList.get(i));
+					stroke = new StrokeDTO();
+					stroke.setStartMLine(mergeLineList.get(i));
 				}
 			}
 		}
 		
 		logger.info("--------------分笔结果-------------");
-		for(int i = 0;i<touchList.size();i++){
-			TouchDTO touchDTO = touchList.get(i);
-			logger.info(StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime()) + "  "
-					+ StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime()) + " "
-					+ touchDTO.getDirection());
+		for(int i = 0;i<strokeList.size();i++){
+			StrokeDTO strokeDTO = strokeList.get(i);
+			logger.info(StockDateUtil.SDF_TIME.format(strokeDTO.getStartMLine().getBeginTime()) + "  "
+					+ StockDateUtil.SDF_TIME.format(strokeDTO.getEndMLine().getEndTime()) + " "
+					+ strokeDTO.getDirection());
 		}
 		
-		return touchList;
+		return strokeList;
 	}
 	
 }

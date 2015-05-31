@@ -3,7 +3,7 @@ package pers.sam.czsc.test;
 import java.util.LinkedList;
 import java.util.List;
 
-import pers.sam.czsc.dto.TouchDTO;
+import pers.sam.czsc.dto.StrokeDTO;
 
 /**
  * 
