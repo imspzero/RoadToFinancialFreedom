@@ -17,6 +17,7 @@ import pers.sam.czsc.core.impl.FindSegmentImpl3;
 import pers.sam.czsc.dto.FeatureElementDTO;
 import pers.sam.czsc.dto.MergeLineDTO;
 import pers.sam.czsc.dto.StrokeDTO;
+import pers.sam.czsc.dto.PartingResultDTO;
 import pers.sam.czsc.test.Test601600_30min;
 import pers.sam.dto.StockKLinePriceDTO;
 import pers.sam.util.GetStockDataFromSqliteUtil;
@@ -332,9 +333,8 @@ public class ZenTheoryUtil {
 	 * @param endDay
 	 * @return List<StrokeDTO> \List<MergeLineDTO> mergeLineList, boolean sectionResultArray[]
 	 */
-	public static List<StrokeDTO> getStrokeListByBruceForce(String stockCode,
-			String period, String startDay, String endDay,
-			List<MergeLineDTO> mergeLineList, boolean sectionResultArray[]) {
+	public static PartingResultDTO getStrokeResultByBruceForce(String stockCode,
+			String period, String startDay, String endDay) {
 		
 		logger.info("*******************getStrokeListByBruceForce begin***********************");
 		
@@ -360,6 +360,9 @@ public class ZenTheoryUtil {
 		//开始第一笔的方向
 		String trend = "down";
 		System.out.println(priceList.size());
+		
+		PartingResultDTO resultDTO = new PartingResultDTO();
+		
 		List<StrokeDTO> strokeList = null;
 		
 		//暴力破解
@@ -371,9 +374,9 @@ public class ZenTheoryUtil {
 				logger.info("-*-开始日期：" + priceList.get(i).getBeginTime()
 						+ " trend:" + trend + "分笔开始...");
 
-				strokeList = getStrokeList(priceList.subList(i, priceList
-						.size()), trend, mergeLineList, sectionResultArray);
-				if (strokeList.size() != 0) {
+				resultDTO = getStrokeList(priceList.subList(i, priceList
+						.size()), trend );
+				if (resultDTO.getStrokeList().size() != 0) {
 					break;
 				}
 			} catch (Exception e) {
@@ -388,9 +391,9 @@ public class ZenTheoryUtil {
 				logger.info("-*-开始日期：" + priceList.get(i).getBeginTime()
 						+ " trend:" + trend + "分笔开始...");
 				
-				strokeList = getStrokeList(priceList.subList(i, priceList
-						.size()), trend, mergeLineList, sectionResultArray);
-				if (strokeList.size() != 0) {
+				resultDTO = getStrokeList(priceList.subList(i, priceList
+						.size()), trend);
+				if (resultDTO.getStrokeList().size() != 0) {
 					break;
 				}
 			} catch (Exception e) {
@@ -403,7 +406,7 @@ public class ZenTheoryUtil {
 		
 		logger.info("*******************getStrokeListByBruceForce end**************************");
 		
-		return strokeList;
+		return resultDTO;
 	}
 	
 	/**
@@ -413,12 +416,14 @@ public class ZenTheoryUtil {
 	 * @return
 	 * @throws Exception 
 	 */
-	private static List<StrokeDTO> getStrokeList(List<StockKLinePriceDTO> priceList,
-			String trend,List<MergeLineDTO> mergeLineList,boolean sectionResultArray[]) throws Exception {
+	private static PartingResultDTO getStrokeList(List<StockKLinePriceDTO> priceList,
+			String trend) throws Exception {
+		PartingResultDTO resultDTO = new PartingResultDTO();
+		
 		/**
 		 * K线合并、顶底分型信息
 		 */
-		mergeLineList = new ArrayList();
+		List<MergeLineDTO> mergeLineList = new ArrayList();
 		
 		//从1990-01-01开始
 		StockKLinePriceDTO priceDTO = priceList.get(0);
@@ -479,7 +484,7 @@ public class ZenTheoryUtil {
 		//3.分笔
 		DivideSectionInterface divideSectionIntf = new DivideSectionImpl1();
 		//boolean 
-		sectionResultArray = divideSectionIntf.divideSection(mergeLineList);
+		boolean []sectionResultArray = divideSectionIntf.divideSection(mergeLineList);
 		
 		List <StrokeDTO>strokeList = new ArrayList();
 		StrokeDTO stroke = null;
@@ -514,7 +519,11 @@ public class ZenTheoryUtil {
 					+ strokeDTO.getDirection());
 		}
 		
-		return strokeList;
+		resultDTO.setMergeLineList(mergeLineList);
+		resultDTO.setSectionResultArray(sectionResultArray);
+		resultDTO.setStrokeList(strokeList);
+		
+		return resultDTO;
 	}
 	
 }

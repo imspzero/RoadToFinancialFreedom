@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import pers.sam.czsc.dto.MergeLineDTO;
 import pers.sam.czsc.dto.StrokeDTO;
+import pers.sam.czsc.dto.PartingResultDTO;
 import pers.sam.data.InsertPartingInfoDAO;
 import pers.sam.dto.PartingInfoDTO;
 import pers.sam.util.PeriodUtil;
@@ -33,23 +34,25 @@ public class ZenTheoryUtilDemo {
 		
 		Date currentDate = new Date();
 		
-		String stockCode ="999999";
-		String period = PeriodUtil.PERIOD_30_MIN;
+		String stockCode ="600000";
+		String period = PeriodUtil.PERIOD_DAY;
 //		String startDay = "2014-04-08";
-		String startDay = "2015-05-05";
-		String endDay = "2015-05-16";
+		String startDay = "2014-10-27";
+		String endDay = "2015-06-02";
 		
 		logger.info("*******************ZenTheoryUtilDemo begin***********************************************");
 		logger.info("获取"+stockCode+" "+period+"数据"+",查询区间["+startDay+"~"+endDay+"]");
 		
-		List<StrokeDTO> strokeList = null;
-		List<MergeLineDTO> mergeLineList = new ArrayList();
-		boolean sectionResultArray[] = null ;
 		String partingDirection = "";
 		String partingStatus = "";
 		
-		strokeList = ZenTheoryUtil.getStrokeListByBruceForce(stockCode, period,
-				startDay, endDay, mergeLineList, sectionResultArray);
+		//得到结果
+		PartingResultDTO strokeResultDTO = ZenTheoryUtil.getStrokeResultByBruceForce(stockCode, period,
+				startDay, endDay);
+		
+		List<StrokeDTO> strokeList = strokeResultDTO.getStrokeList();
+		List<MergeLineDTO> mergeLineList = strokeResultDTO.getMergeLineList();
+		boolean sectionResultArray[] = strokeResultDTO.getSectionResultArray() ;
 		
 		StrokeDTO lastStroke = strokeList.get(strokeList.size()-1);
 		
@@ -86,8 +89,8 @@ public class ZenTheoryUtilDemo {
 		PartingInfoDTO partingInfo = new PartingInfoDTO();
 		partingInfo.setStockCode(stockCode);
 		partingInfo.setPeriod(period);
-		partingInfo.setPartingDate(StockDateUtil.SDF_DAY
-				.parse(StockDateUtil.SDF_DAY.format(mLine.getBeginTime())));
+		partingInfo.setPartingDate(StockDateUtil.SDF_TIME
+				.parse(StockDateUtil.SDF_TIME.format(mLine.getBeginTime())));
 		partingInfo.setPartingDirection(partingDirection);
 		partingInfo.setPartingStatus(partingStatus);
 		
