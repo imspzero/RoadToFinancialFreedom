@@ -36,6 +36,8 @@ public class LinkedListTest {
 		
 		System.out.println(list);
 		
+		System.out.println(list);
+		
 	}
 
 }
