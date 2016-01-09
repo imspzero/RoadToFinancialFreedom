@@ -198,11 +198,11 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 							
 							resultIndexList.add(i);
 							System.out.println("线段端点: "+
-									StockDateUtil.SDF_TIME.format(secondElement.getBeginTime()));
+									StockDateUtil.SDF_TIME.format(secondElement.getBeginTime())+" 第二种情况(1)");
 							
 							resultIndexList.add(j);
 							System.out.println("线段端点: "+
-									StockDateUtil.SDF_TIME.format(bDTO.getBeginTime()));
+									StockDateUtil.SDF_TIME.format(bDTO.getBeginTime())+" 第二种情况(2)");
 							
 							//反查得到实际上的结束点
 							lastSegmentEndIndex = findIndexByEndTime(
