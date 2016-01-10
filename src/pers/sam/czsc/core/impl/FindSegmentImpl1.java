@@ -15,7 +15,7 @@ import pers.sam.util.StockDateUtil;
  */
 public class FindSegmentImpl1 implements FindSegmentInterface {
 	
-	public void findSegment(List<StrokeDTO> strokeList) {
+	public List<String> findSegment(List<StrokeDTO> strokeList) {
 		// TODO Auto-generated method stub
 		//取得一开始线段的方向
 		String segmentDirection = "";
@@ -149,6 +149,8 @@ public class FindSegmentImpl1 implements FindSegmentInterface {
 				break;
 			}
 		}
+		
+		return null;
 	}
 	
 	/**

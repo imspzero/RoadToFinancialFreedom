@@ -15,7 +15,7 @@ import pers.sam.util.StockDateUtil;
  */
 public class FindSegmentImpl2 implements FindSegmentInterface {
 	
-	public void findSegment(List<StrokeDTO> strokeList) {
+	public List<String> findSegment(List<StrokeDTO> strokeList) {
 		
 		List resultIndexList = new ArrayList();
 		
@@ -160,7 +160,7 @@ public class FindSegmentImpl2 implements FindSegmentInterface {
 					StockDateUtil.SDF_TIME.format(strokeDTO.getStartMLine().getBeginTime())+"~"+
 					StockDateUtil.SDF_TIME.format(strokeDTO.getEndMLine().getEndTime())+" point ");
 		}
-		
+		return null;
 	}
 	
 	/**

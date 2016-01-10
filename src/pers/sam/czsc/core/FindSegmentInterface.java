@@ -15,6 +15,6 @@ public interface FindSegmentInterface {
 	 *  ‰»Î∑÷± –Ú¡–strokeList
 	 * @param strokeList
 	 */
-	public void findSegment(List <StrokeDTO> strokeList);
+	public List findSegment(List <StrokeDTO> strokeList);
 	
 }

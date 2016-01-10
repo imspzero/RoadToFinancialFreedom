@@ -19,9 +19,9 @@ import pers.sam.util.StockDateUtil;
  */
 public class FindSegmentImpl3 implements FindSegmentInterface {
 	
-	public void findSegment(List<StrokeDTO> strokeList) {
+	public List<String> findSegment(List<StrokeDTO> strokeList) {
 		
-		List<Integer> resultIndexList = new ArrayList<Integer>();
+		List<String> resultList = new ArrayList<String>();
 		
 		LinkedList<StrokeDTO> processList = new LinkedList<StrokeDTO>();
 		
@@ -115,11 +115,11 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 					mergeProcessList(processList, secondElement,
 							segmentDirection.equals("up") ? "down" : "up");
 					
-					resultIndexList.add(i);
 					lastSegmentEndIndex = i;
 					
 					nextSegmentDirection = segmentDirection.equals("up")?"down":"up";
 					
+					resultList.add(StockDateUtil.SDF_TIME.format(secondElement.getBeginTime()));
 					System.out.println("线段端点: "+
 							StockDateUtil.SDF_TIME.format(secondElement.getBeginTime())+
 							" 第一种情况");
@@ -196,11 +196,11 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 									secondSegmentDirection.equals("up") ? "down"
 											: "up");
 							
-							resultIndexList.add(i);
+							resultList.add(StockDateUtil.SDF_TIME.format(secondElement.getBeginTime()));
 							System.out.println("线段端点: "+
 									StockDateUtil.SDF_TIME.format(secondElement.getBeginTime())+" 第二种情况(1)");
 							
-							resultIndexList.add(j);
+							resultList.add(StockDateUtil.SDF_TIME.format(bDTO.getBeginTime()));
 							System.out.println("线段端点: "+
 									StockDateUtil.SDF_TIME.format(bDTO.getBeginTime())+" 第二种情况(2)");
 							
@@ -233,6 +233,7 @@ public class FindSegmentImpl3 implements FindSegmentInterface {
 //					StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime())+"~"+
 //					StockDateUtil.SDF_TIME.format(touchDTO.getEndMLine().getEndTime())+" point ");
 //		}
+		return resultList;
 		
 	}
 	
