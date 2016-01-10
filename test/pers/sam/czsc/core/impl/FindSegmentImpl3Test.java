@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 import pers.sam.czsc.core.util.GetTestDataUtil;
 import pers.sam.czsc.dto.FeatureElementDTO;
 import pers.sam.czsc.dto.StrokeDTO;
+import pers.sam.util.StockDateUtil;
 
 public class FindSegmentImpl3Test extends TestCase {
 	
@@ -63,7 +65,14 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List resultList = findSegmentImpl3.findSegment(touchList);
+		
+		for(int i = 0;i<resultList.size();i++){
+			System.out.println(resultList.get(i));
+		}
+
+		assertEquals(1, resultList.size());
+		assertEquals("1905-01-01 00:00:00", resultList.get(0));
 		
 		System.out.println("----------end----------");
 		System.out.println("");
@@ -78,7 +87,10 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(2, resultList.size());
+		assertEquals("1905-01-01 00:00:00", resultList.get(0));
+		assertEquals("1910-01-01 00:00:00", resultList.get(1));
 		
 		System.out.println("----------end----------");
 		System.out.println("");
@@ -94,8 +106,8 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
-		
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(0, resultList.size());
 		System.out.println("----------end----------");
 		System.out.println("");
 		
@@ -109,8 +121,11 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList =findSegmentImpl3.findSegment(touchList);
 		
+		assertEquals(2, resultList.size());
+		assertEquals("1903-01-01 00:00:00", resultList.get(0));
+		assertEquals("1908-01-01 00:00:00", resultList.get(1));
 		System.out.println("----------end----------");
 		System.out.println("");
 		
@@ -124,7 +139,10 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(2, resultList.size());
+		assertEquals("1903-01-01 00:00:00", resultList.get(0));
+		assertEquals("1908-01-01 00:00:00", resultList.get(1));
 		System.out.println("----------end----------");
 		System.out.println("");
 	}
@@ -137,7 +155,9 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(1, resultList.size());
+		assertEquals("1903-01-01 00:00:00", resultList.get(0));
 		System.out.println("----------end----------");
 		System.out.println("");
 	}
@@ -152,8 +172,9 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
-		
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(1, resultList.size());
+		assertEquals("1905-01-01 00:00:00", resultList.get(0));
 		System.out.println("----------end----------");
 		System.out.println("");
 		
@@ -176,6 +197,12 @@ public class FindSegmentImpl3Test extends TestCase {
 			findSegmentImpl3.mergeFeatureElement(touchList, "down", 0, 12);
 		
 		System.out.println(featureList);
+		for (int i = 0; i < featureList.size(); i++) {
+			FeatureElementDTO dto = featureList.get(i);
+			System.out.println(StockDateUtil.SDF_TIME.format(dto.getBeginTime())
+							+ " "
+							+ StockDateUtil.SDF_TIME.format(dto.getEndTime()));
+		}
 		
 		System.out.println("----------end----------");
 		System.out.println("");
@@ -199,7 +226,12 @@ public class FindSegmentImpl3Test extends TestCase {
 			findSegmentImpl3.mergeFeatureElement(touchList, "up", 0, 8);
 		
 		System.out.println(featureList);
-		
+		for (int i = 0; i < featureList.size(); i++) {
+			FeatureElementDTO dto = featureList.get(i);
+			System.out.println(StockDateUtil.SDF_TIME.format(dto.getBeginTime())
+							+ " "
+							+ StockDateUtil.SDF_TIME.format(dto.getEndTime()));
+		}
 		System.out.println("----------end----------");
 		System.out.println("");
 		
@@ -218,7 +250,9 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(1, resultList.size());
+		assertEquals("1905-01-01 00:00:00", resultList.get(0));
 		
 		System.out.println("----------end----------");
 		System.out.println("");
@@ -238,7 +272,10 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(2, resultList.size());
+		assertEquals("1903-01-01 00:00:00", resultList.get(0));
+		assertEquals("1906-01-01 00:00:00", resultList.get(1));
 		
 		System.out.println("----------end----------");
 		System.out.println("");
@@ -257,7 +294,8 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(0, resultList.size());
 		
 		System.out.println("----------end----------");
 		System.out.println("");
@@ -276,7 +314,11 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(3, resultList.size());
+		assertEquals("1903-01-01 00:00:00", resultList.get(0));
+		assertEquals("1906-01-01 00:00:00", resultList.get(1));
+		assertEquals("1913-01-01 00:00:00", resultList.get(2));
 		
 		System.out.println("----------end----------");
 		System.out.println("");
@@ -296,8 +338,9 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
-		
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(1, resultList.size());
+		assertEquals("1905-01-01 00:00:00", resultList.get(0));
 		System.out.println("----------end----------");
 		System.out.println("");
 	}
@@ -315,8 +358,9 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
-		
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+		assertEquals(1, resultList.size());
+		assertEquals("1905-01-01 00:00:00", resultList.get(0));
 		System.out.println("----------end----------");
 		System.out.println("");
 	}
@@ -335,8 +379,28 @@ public class FindSegmentImpl3Test extends TestCase {
 		
 		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
 		
-		findSegmentImpl3.findSegment(touchList);
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
 		
+		System.out.println("----------end----------");
+		System.out.println("");
+	}
+	
+	/**
+	 * 测试一段601318 30分钟走势的分段
+	 * findSegment
+	 * @throws ParseException
+	 */	
+	public void test601318_30min_test_01() throws ParseException{
+		
+		System.out.println("----------begin 601318_30min_test_01----------");
+		
+		String fileName = System.getProperty("user.dir")+"/resource/601318_30min_test_01/601318_30min_test_01.txt";
+		
+		List <StrokeDTO>touchList = GetTestDataUtil.getTestData(fileName);
+		
+		List<String> resultList = findSegmentImpl3.findSegment(touchList);
+//		assertEquals(1, resultList.size());
+//		assertEquals("1905-01-01 00:00:00", resultList.get(0));
 		System.out.println("----------end----------");
 		System.out.println("");
 	}
