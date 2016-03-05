@@ -122,7 +122,7 @@ public class GetTestDataUtil {
 	}
 	
 	/**
-	 * 获取X轴的坐标
+	 * 获取Y轴的坐标
 	 * @param fileName
 	 * @return
 	 */
