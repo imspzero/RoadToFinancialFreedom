@@ -27,7 +27,7 @@ public class Test601318_30min {
 		String stockCode ="601318";
 		
 		List<StockKLinePriceDTO> priceList = 
-			GetStockDataFromSqliteUtil.getStock30MinDataByTime(stockCode,"2014-03-19 10:30:00","2015-12-26 14:30:00");
+			GetStockDataFromSqliteUtil.getStock30MinDataByTime(stockCode,"2014-03-19 10:30:00","2016-04-01 14:30:00");
 		
 //		List<StockKLinePriceDTO> priceList = 
 //			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-07-29 10:00:00","2015-03-19 14:30:00");
