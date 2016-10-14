@@ -87,7 +87,7 @@ public class InsertStockDataToSqliteUtil {
 //		String stockCode ="601318";
 //		insert30MinStockData(stockCode,filePath);
 
-		String filePath = "E:\\国信数据导出\\601318_day.csv";
+		String filePath = "C:\\Users\\SUM\\Desktop\\601318_day.xls.csv";
 		String stockCode ="601318";
 		InsertStockDataToSqliteUtil.insertDayStockData(stockCode, filePath);	
 		
