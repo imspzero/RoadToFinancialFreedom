@@ -22,15 +22,27 @@ public class Test601318_30min {
 	 * @param args
 	 * @throws Exception 
 	 */
+	/**
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		
 		String stockCode ="601318";
 		
-		List<StockKLinePriceDTO> priceList = 
-			GetStockDataFromSqliteUtil.getStock30MinDataByTime(stockCode,"2014-03-19 10:30:00","2016-04-01 14:30:00");
-		
 //		List<StockKLinePriceDTO> priceList = 
-//			SqliteDataUtil.getStock30MinDataByTime(stockCode,"2013-07-29 10:00:00","2015-03-19 14:30:00");
+//			GetStockDataFromSqliteUtil.getStock30MinDataByTime(stockCode,"2014-03-19 10:30:00","2016-04-01 14:30:00");
+
+		List<StockKLinePriceDTO> priceList = GetStockDataFromSqliteUtil
+				.getStock30MinDataByTime(stockCode, "2015-12-21 10:00:00",
+						"2016-04-02 13:30:00");
+
+//		List<StockKLinePriceDTO> priceList = GetStockDataFromSqliteUtil
+//				.getDayStockData(stockCode, "2013-07-25 09:30:00",
+//						"2016-04-02 13:30:00");
+		
+//		List<StockKLinePriceDTO> priceList = SqliteDataUtil.getStock30MinDataByTime(stockCode, "2013-07-29 10:00:00",
+//						"2015-04-19 14:30:00");
 		
 		System.out.println(priceList.size());
 		
@@ -130,7 +142,7 @@ public class Test601318_30min {
 			}
 		}
 		
-		System.out.println("--------------分笔-------------");
+		System.out.println("--------------分笔结果-------------");
 		for(int i = 0;i<touchList.size();i++){
 			StrokeDTO touchDTO = touchList.get(i);
 			System.out.println(StockDateUtil.SDF_TIME.format(touchDTO.getStartMLine().getBeginTime()) + "  "
@@ -138,7 +150,7 @@ public class Test601318_30min {
 					+ touchDTO.getDirection());
 		}
 		
-		System.out.println("--------------分段-------------");
+		System.out.println("--------------分段结果-------------");
 //		ZenTheoryUtil.findSegment(touchList);
 		
 		FindSegmentInterface findSegmentIntf = new FindSegmentImpl3();
