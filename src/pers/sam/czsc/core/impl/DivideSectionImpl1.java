@@ -285,7 +285,7 @@ public class DivideSectionImpl1 implements DivideSectionInterface {
 		MergeLineDTO startDTO = mergeSticksList.get(startIndex);
 		MergeLineDTO endDTO = mergeSticksList.get(endIndex);
 		if(startIndex==0){
-			if(endDTO.getIsPeak().equals("N")&&
+			if(!endDTO.getIsPeak().equals("N")&&
 					!endDTO.getIsBottom().equals("N")){
 				return false;
 			}

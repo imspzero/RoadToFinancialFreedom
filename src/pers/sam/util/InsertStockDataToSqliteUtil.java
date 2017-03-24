@@ -87,9 +87,13 @@ public class InsertStockDataToSqliteUtil {
 //		String stockCode ="601318";
 //		insert30MinStockData(stockCode,filePath);
 
-		String filePath = "C:\\Users\\SUM\\Desktop\\601318_day.xls.csv";
-		String stockCode ="601318";
-		InsertStockDataToSqliteUtil.insertDayStockData(stockCode, filePath);	
+//		String filePath = "C:\\Users\\SUM\\Desktop\\601318_day.xls.csv";
+//		String stockCode ="601318";
+//		InsertStockDataToSqliteUtil.insertDayStockData(stockCode, filePath);	
+		
+		String filePath = "C:\\Users\\SUM\\Desktop\\300135_day.csv";
+		String stockCode ="300135";
+		InsertStockDataToSqliteUtil.insertDayStockData(stockCode, filePath);			
 		
 	}
 	
