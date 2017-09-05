@@ -67,6 +67,7 @@ public class GetStockDataFromSqliteUtil {
 	           dto.setMa60(rs.getDouble("ma60"));
 	          
 	           priceList.add(dto);
+	           
 	        }
 	        rs.close();
 	        stmt.close();
