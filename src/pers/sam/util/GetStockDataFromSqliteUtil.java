@@ -466,6 +466,5 @@ public class GetStockDataFromSqliteUtil {
 //	      }
 	    return priceList;
 	}	
-	
-	
+		
 }
