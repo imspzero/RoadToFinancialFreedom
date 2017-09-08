@@ -70,4 +70,5 @@ public class SegmentDTO {
 	public void setLow(Double low) {
 		this.low = low;
 	}
+	
 }
